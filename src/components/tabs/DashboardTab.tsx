@@ -1,7 +1,7 @@
 import {
   FLASHCARD_CATEGORIES,
   PRACTICE_EXAM_QUESTIONS,
-  STUDY_TOPICS,
+  STUDY_QUIZ_QUESTIONS,
 } from "../../data";
 import { BRAND } from "../../theme/colors";
 import type { TabId } from "../../types";
@@ -24,6 +24,13 @@ const QUICK_ACTIONS: {
     title: "Practice Exam",
     description: "50 scenario, MC, multi-answer, and T/F questions with explanations.",
     accent: BRAND.primary,
+  },
+  {
+    tab: "studyquiz",
+    icon: "📋",
+    title: "Doc & Scenario Quiz",
+    description: "100 manual-based questions with real-world scenarios before the mock exam.",
+    accent: "#6D28D9",
   },
   {
     tab: "quiz",
@@ -51,12 +58,12 @@ const QUICK_ACTIONS: {
 const STUDY_PATH = [
   "Skim Study Material for weak areas (start with Workload — Section 06).",
   "Run through Flashcards until you can answer without peeking.",
+  "Complete the Doc & Scenario Quiz (100 Qs) to validate manual concepts.",
   "Take the Practice Exam under timed conditions; aim for 80%+.",
   "Review wrong answers and revisit linked manual sections.",
 ];
 
 export function DashboardTab({ totalFlashcards, onNavigate }: DashboardTabProps) {
-  const topicCount = STUDY_TOPICS.length;
   const examCount = PRACTICE_EXAM_QUESTIONS.length;
 
   return (
@@ -69,19 +76,22 @@ export function DashboardTab({ totalFlashcards, onNavigate }: DashboardTabProps)
           community links. Pick a starting point below or jump straight into the exam simulator.
         </p>
         <div className="dashboard-hero-actions">
-          <button type="button" className="dashboard-btn-primary" onClick={() => onNavigate("practice")}>
-            Start practice exam
+          <button type="button" className="dashboard-btn-primary" onClick={() => onNavigate("studyquiz")}>
+            Start doc quiz (100 Qs)
+          </button>
+          <button type="button" className="dashboard-btn-secondary" onClick={() => onNavigate("practice")}>
+            Practice exam
           </button>
           <button type="button" className="dashboard-btn-secondary" onClick={() => onNavigate("quiz")}>
-            Review flashcards
+            Flashcards
           </button>
         </div>
       </section>
 
       <section className="dashboard-stats" aria-label="Study hub overview">
-        <StatCard label="Practice questions" value={String(examCount)} hint="In this app" />
+        <StatCard label="Doc quiz" value={String(STUDY_QUIZ_QUESTIONS.length)} hint="Manual & scenarios" />
+        <StatCard label="Practice exam" value={String(examCount)} hint="Cert-style mock" />
         <StatCard label="Flashcards" value={String(totalFlashcards)} hint="Across 7 topics" />
-        <StatCard label="Study topics" value={String(topicCount)} hint="Official categories" />
         <StatCard label="Pass score" value="80%" hint="Official exam threshold" />
       </section>
 

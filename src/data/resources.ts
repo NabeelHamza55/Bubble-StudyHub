@@ -1,5 +1,17 @@
 import type { ExternalResource } from "../types";
 
+/** Official Bubble documentation — prefer these first */
+export const OFFICIAL_RESOURCES: ExternalResource[] = [
+  { n: "Bubble Manual — Home", u: "https://manual.bubble.io/" },
+  { n: "Bubble Manual — Getting Started", u: "https://manual.bubble.io/help-guides/getting-started" },
+  { n: "Bubble Manual — Core Reference", u: "https://manual.bubble.io/core-resources/using-the-core-reference" },
+  { n: "Bubble Manual — Workload & Optimization", u: "https://manual.bubble.io/help-guides/workload" },
+  { n: "Bubble Manual — Privacy Rules", u: "https://manual.bubble.io/help-guides/data/the-database/protecting-data-with-privacy-rules" },
+  { n: "Bubble Manual — Backend Workflows", u: "https://manual.bubble.io/help-guides/logic/backend-workflows" },
+  { n: "Bubble Manual — The Bubble API", u: "https://manual.bubble.io/help-guides/integrations/api/the-bubble-api" },
+  { n: "Bubble — Developer Certification", u: "https://bubble.io/certification" },
+];
+
 export const EXTERNAL_RESOURCES: ExternalResource[] = [
   { n: "NoCode Alliance — Free Mock Exam (50 Qs)", u: "https://nocodealliance.org/bubble-certification" },
   { n: "Bubble — Study Guide PDF", u: "https://bubble.io/certification" },

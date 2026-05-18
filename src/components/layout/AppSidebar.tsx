@@ -1,10 +1,11 @@
 import { useState } from "react";
 import type { TabId } from "../../types";
-import { PRACTICE_EXAM_QUESTIONS } from "../../data";
+import { PRACTICE_EXAM_QUESTIONS, STUDY_QUIZ_QUESTIONS } from "../../data";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "home", label: "Dashboard" },
   { id: "practice", label: "Practice Exam" },
+  { id: "studyquiz", label: "Doc & Scenario Quiz" },
   { id: "quiz", label: "Flashcards" },
   { id: "topics", label: "Study Material" },
   { id: "extra", label: "Resources" },
@@ -13,6 +14,7 @@ const TABS: { id: TabId; label: string }[] = [
 const TAB_ICONS: Record<TabId, string> = {
   home: "🏠",
   practice: "🎯",
+  studyquiz: "📋",
   quiz: "⚡",
   topics: "📚",
   extra: "🔗",
@@ -38,6 +40,7 @@ export function AppSidebar({
   const counts: Record<TabId, number | null> = {
     home: null,
     practice: PRACTICE_EXAM_QUESTIONS.length,
+    studyquiz: STUDY_QUIZ_QUESTIONS.length,
     quiz: totalFlashcards,
     topics: 7,
     extra: null,

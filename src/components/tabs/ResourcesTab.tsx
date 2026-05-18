@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { EXTERNAL_RESOURCES, WORKLOAD_CONCEPTS } from "../../data";
+import { EXTERNAL_RESOURCES, OFFICIAL_RESOURCES, WORKLOAD_CONCEPTS } from "../../data";
 import { BRAND } from "../../theme/colors";
 import { card, layout, text } from "../../theme/styles";
 import { RADIUS, SPACE, TYPE } from "../../theme/tokens";
@@ -11,6 +11,19 @@ export function ResourcesTab() {
 
   return (
     <div style={layout.stack(SPACE.xl)}>
+      <Section title="Official Bubble documentation">
+        {OFFICIAL_RESOURCES.map((link) => (
+          <ExternalLink
+            key={link.u}
+            href={link.u}
+            label={link.n}
+            badge="MANUAL"
+            badgeColor="#1D4ED8"
+            badgeBg="#EFF6FF"
+          />
+        ))}
+      </Section>
+
       <Section title="Free mock tests & study aids">
         {mockTests.map((link) => (
           <ExternalLink key={link.u} href={link.u} label={link.n} badge="FREE" badgeColor={BRAND.pass} badgeBg="#ECFDF5" />
