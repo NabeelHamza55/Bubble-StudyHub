@@ -1,16 +1,19 @@
 import type { ReactNode } from "react";
 import { EXTERNAL_RESOURCES, WORKLOAD_CONCEPTS } from "../../data";
 import { BRAND } from "../../theme/colors";
+import { card, layout, text } from "../../theme/styles";
+import { RADIUS, SPACE, TYPE } from "../../theme/tokens";
+import { Badge } from "../ui/Badge";
 
 export function ResourcesTab() {
   const mockTests = EXTERNAL_RESOURCES.slice(0, 3);
   const community = EXTERNAL_RESOURCES.slice(3);
 
   return (
-    <>
+    <div style={layout.stack(SPACE.xl)}>
       <Section title="Free mock tests & study aids">
         {mockTests.map((link) => (
-          <ExternalLink key={link.u} href={link.u} label={link.n} badge="FREE" badgeColor="#047857" badgeBg="#ECFDF5" />
+          <ExternalLink key={link.u} href={link.u} label={link.n} badge="FREE" badgeColor={BRAND.pass} badgeBg="#ECFDF5" />
         ))}
       </Section>
 
@@ -20,62 +23,46 @@ export function ResourcesTab() {
         ))}
       </Section>
 
-      <div
-        style={{
-          padding: "12px 14px",
-          background: "#FFF7ED",
-          border: "1.5px solid #FED7AA",
-          borderRadius: 8,
-        }}
-      >
-        <h3 style={{ fontWeight: 700, fontSize: 11.5, color: "#B45309", marginBottom: 6 }}>
-          🔥 WORKLOAD CONCEPTS — MUST KNOW
+      <section style={{ ...card, background: "#FFF7ED", borderColor: "#FED7AA" }}>
+        <h3 style={{ ...text.h3, color: "#B45309", marginBottom: SPACE.md }}>
+          🔥 Workload concepts — must know
         </h3>
-        <p style={{ fontSize: 11.5, color: "#92400E", margin: "0 0 8px", lineHeight: 1.5 }}>
+        <p style={{ ...text.muted, fontSize: TYPE.base, color: "#92400E", marginBottom: SPACE.md }}>
           Study until you can explain each without looking:
         </p>
-        <ol style={{ display: "grid", gap: 3, margin: 0, padding: 0, listStyle: "none" }}>
+        <ol style={{ ...layout.stack(SPACE.sm), margin: 0, padding: 0, listStyle: "none" }}>
           {WORKLOAD_CONCEPTS.map((concept, i) => (
             <li
               key={concept}
               style={{
                 display: "flex",
-                gap: 8,
-                padding: "6px 9px",
+                gap: SPACE.md,
+                padding: `${SPACE.md}px ${SPACE.lg}px`,
                 background: "#FFFBEB",
-                borderRadius: 5,
+                borderRadius: RADIUS.sm,
                 border: "1px solid #FDE68A",
               }}
             >
-              <span style={{ fontWeight: 700, fontSize: 10, color: "#D97706", minWidth: 18 }}>
+              <span style={{ fontWeight: 700, fontSize: TYPE.sm, color: "#D97706", minWidth: 24 }}>
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span style={{ fontSize: 11.5, color: "#78350F", lineHeight: 1.4 }}>{concept}</span>
+              <span style={{ fontSize: TYPE.base, color: "#78350F", lineHeight: TYPE.lineHeightRelaxed }}>
+                {concept}
+              </span>
             </li>
           ))}
         </ol>
-      </div>
-    </>
+      </section>
+    </div>
   );
 }
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <>
-      <h2
-        style={{
-          fontWeight: 700,
-          fontSize: 10.5,
-          color: BRAND.muted,
-          letterSpacing: ".07em",
-          textTransform: "uppercase",
-          marginBottom: 6,
-        }}
-      >
-        {title}
-      </h2>
-      <div style={{ display: "grid", gap: 4, marginBottom: 16 }}>{children}</div>
-    </>
+    <section>
+      <h2 style={{ ...text.label, marginBottom: SPACE.md }}>{title}</h2>
+      <div style={layout.stack(SPACE.sm)}>{children}</div>
+    </section>
   );
 }
 
@@ -102,11 +89,11 @@ function ExternalLink({
       style={{
         display: "flex",
         alignItems: "center",
-        gap: 8,
-        padding: "9px 12px",
+        gap: SPACE.md,
+        padding: `${SPACE.md}px ${SPACE.lg}px`,
         background: BRAND.white,
-        border: `1.5px solid ${BRAND.border}`,
-        borderRadius: 8,
+        border: `1px solid ${BRAND.border}`,
+        borderRadius: RADIUS.md,
         textDecoration: "none",
         transition: "border-color .2s",
       }}
@@ -117,22 +104,15 @@ function ExternalLink({
         e.currentTarget.style.borderColor = BRAND.border;
       }}
     >
-      <span style={{ flex: 1, fontSize: 12, color: "#1F2937", fontWeight: badge ? 500 : 400 }}>{label}</span>
-      {badge && (
-        <span
-          style={{
-            fontSize: 10,
-            fontWeight: 700,
-            color: badgeColor,
-            background: badgeBg,
-            padding: "2px 7px",
-            borderRadius: 4,
-          }}
-        >
+      <span style={{ flex: 1, fontSize: TYPE.base, color: BRAND.text, fontWeight: badge ? 500 : 400 }}>
+        {label}
+      </span>
+      {badge && badgeColor && badgeBg && (
+        <Badge color={badgeColor} background={badgeBg}>
           {badge}
-        </span>
+        </Badge>
       )}
-      {showArrow && <span style={{ fontSize: 11, color: "#9CA3AF" }}>↗</span>}
+      {showArrow && <span style={{ fontSize: TYPE.lg, color: "#9CA3AF" }} aria-hidden>↗</span>}
     </a>
   );
 }

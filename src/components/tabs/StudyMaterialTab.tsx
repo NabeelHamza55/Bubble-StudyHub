@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Accordion } from "../ui/Accordion";
+import { Badge } from "../ui/Badge";
+import { FilterBar, FilterChip, FilterGroup } from "../ui/FilterBar";
 import { STUDY_TOPICS } from "../../data";
 import type { ResourceFilter, ResourceKind } from "../../types";
 import { RESOURCE_COLORS, RESOURCE_BACKGROUNDS, RESOURCE_LABELS, BRAND } from "../../theme/colors";
+import { alertBox, layout, text } from "../../theme/styles";
+import { RADIUS, SPACE, TYPE } from "../../theme/tokens";
 import { useToggleSet } from "../../hooks/useToggleSet";
 
 const RESOURCE_FILTERS: { id: ResourceFilter; label: string }[] = [
@@ -24,91 +28,49 @@ export function StudyMaterialTab({ searchQuery }: StudyMaterialTabProps) {
   const topics = STUDY_TOPICS.filter((t) => !sq || JSON.stringify(t).toLowerCase().includes(sq));
 
   return (
-    <>
+    <div style={layout.stack(SPACE.lg)}>
       <WorkloadBanner />
-      <div style={{ display: "flex", gap: 3, marginBottom: 8, flexWrap: "wrap" }}>
-        {RESOURCE_FILTERS.map((f) => (
-          <button
-            key={f.id}
-            type="button"
-            onClick={() => setResourceFilter(f.id)}
-            style={{
-              padding: "4px 10px",
-              borderRadius: 5,
-              border: `1.5px solid ${resourceFilter === f.id ? BRAND.primary : BRAND.border}`,
-              background: resourceFilter === f.id ? BRAND.primary : BRAND.white,
-              color: resourceFilter === f.id ? BRAND.white : "#374151",
-              fontSize: 11,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
+
+      <FilterBar>
+        <FilterGroup label="Resource type">
+          {RESOURCE_FILTERS.map((f) => (
+            <FilterChip
+              key={f.id}
+              active={resourceFilter === f.id}
+              activeColor={BRAND.primary}
+              onClick={() => setResourceFilter(f.id)}
+            >
+              {f.label}
+            </FilterChip>
+          ))}
+        </FilterGroup>
+      </FilterBar>
 
       {topics.map((topic) => {
         const resources = topic.r.filter((r) => resourceFilter === "all" || r.k === resourceFilter);
         return (
           <Accordion
             key={topic.id}
-            title={`${topic.n}  ${topic.t}`}
+            title={`${topic.n} · ${topic.t}`}
             accent={topic.a}
             open={openTopics.has(topic.id)}
             toggle={() => toggleTopic(topic.id)}
             badge={
               <>
                 {topic.h && (
-                  <span
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#B91C1C",
-                      background: "#FFF1F2",
-                      border: "1px solid #FECACA",
-                      padding: "1px 6px",
-                      borderRadius: 99,
-                      marginRight: 3,
-                    }}
-                  >
+                  <Badge color={BRAND.fail} background="#FFF1F2" border="1px solid #FECACA">
                     HARDEST
-                  </span>
+                  </Badge>
                 )}
-                <span
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 600,
-                    color: "#6B7280",
-                    background: "#F3F4F6",
-                    padding: "2px 6px",
-                    borderRadius: 99,
-                  }}
-                >
+                <Badge color={BRAND.muted} background="#F3F4F6">
                   {resources.length}
-                </span>
+                </Badge>
               </>
             }
           >
-            <p style={{ fontSize: 11.5, color: BRAND.muted, margin: "0 0 6px", lineHeight: 1.45 }}>
-              {topic.d}
-            </p>
-            {topic.w && (
-              <div
-                style={{
-                  margin: "0 0 6px",
-                  padding: "6px 9px",
-                  background: "#FFF7ED",
-                  border: "1px solid #FED7AA",
-                  borderRadius: 5,
-                  fontSize: 11,
-                  color: "#92400E",
-                }}
-              >
-                ⚠ {topic.w}
-              </div>
-            )}
-            <div style={{ display: "grid", gap: 3 }}>
+            <p style={{ ...text.muted, fontSize: TYPE.base, marginBottom: SPACE.md }}>{topic.d}</p>
+            {topic.w && <div style={{ ...alertBox("warn"), marginBottom: SPACE.md }}>⚠ {topic.w}</div>}
+            <div style={layout.stack(SPACE.sm)}>
               {resources.map((resource, i) => (
                 <ResourceLink key={i} resource={resource} />
               ))}
@@ -116,7 +78,7 @@ export function StudyMaterialTab({ searchQuery }: StudyMaterialTabProps) {
           </Accordion>
         );
       })}
-    </>
+    </div>
   );
 }
 
@@ -124,22 +86,19 @@ function WorkloadBanner() {
   return (
     <div
       style={{
-        margin: "0 0 10px",
-        padding: "10px 12px",
-        background: "#FFF7ED",
-        border: "1.5px solid #FED7AA",
-        borderRadius: 8,
+        ...alertBox("warn"),
         display: "flex",
-        gap: 10,
+        gap: SPACE.md,
         alignItems: "flex-start",
+        borderWidth: 1.5,
       }}
     >
-      <span style={{ fontSize: 16 }}>🔥</span>
+      <span style={{ fontSize: TYPE.xl }} aria-hidden>
+        🔥
+      </span>
       <div>
-        <div style={{ fontWeight: 700, fontSize: 11.5, color: "#B45309", marginBottom: 2 }}>
-          WORKLOAD IS THE HARDEST TOPIC
-        </div>
-        <p style={{ fontSize: 11, color: "#92400E", margin: 0, lineHeight: 1.5 }}>
+        <p style={{ ...text.h3, color: "#B45309", marginBottom: SPACE.xs }}>Workload is the hardest topic</p>
+        <p style={{ ...text.muted, fontSize: TYPE.base, color: "#92400E" }}>
           Certified devs consistently name it as least prepared.{" "}
           <strong style={{ color: "#B45309" }}>Don&apos;t skip Section 06.</strong>
         </p>
@@ -157,35 +116,33 @@ function ResourceLink({ resource }: { resource: { t: string; n: string; u: strin
       style={{
         display: "flex",
         alignItems: "center",
-        gap: 7,
-        padding: "7px 10px",
+        gap: SPACE.md,
+        padding: `${SPACE.md}px ${SPACE.lg}px`,
         background: "#F9FAFB",
-        borderRadius: 6,
-        border: "1px solid #E5E7EB",
+        borderRadius: RADIUS.sm,
+        border: `1px solid ${BRAND.border}`,
         textDecoration: "none",
-        transition: "background .15s",
+        transition: "background .15s, border-color .15s",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = "#F3F4F6";
+        e.currentTarget.style.borderColor = BRAND.primary + "55";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = "#F9FAFB";
+        e.currentTarget.style.borderColor = BRAND.border;
       }}
     >
-      <span style={{ fontSize: 12 }}>{resource.t}</span>
-      <span style={{ flex: 1, fontSize: 11.5, color: "#1F2937" }}>{resource.n}</span>
-      <span
-        style={{
-          fontSize: 9.5,
-          fontWeight: 700,
-          color: RESOURCE_COLORS[resource.k],
-          background: RESOURCE_BACKGROUNDS[resource.k],
-          padding: "2px 6px",
-          borderRadius: 4,
-        }}
+      <span style={{ fontSize: TYPE.lg }}>{resource.t}</span>
+      <span style={{ flex: 1, fontSize: TYPE.base, color: BRAND.text, lineHeight: TYPE.lineHeightRelaxed }}>
+        {resource.n}
+      </span>
+      <Badge
+        color={RESOURCE_COLORS[resource.k]}
+        background={RESOURCE_BACKGROUNDS[resource.k]}
       >
         {RESOURCE_LABELS[resource.k]}
-      </span>
+      </Badge>
     </a>
   );
 }

@@ -1,5 +1,8 @@
 import type { ExamQuestion } from "../../types";
-import { CATEGORY_COLORS } from "../../theme/colors";
+import { CATEGORY_COLORS, BRAND } from "../../theme/colors";
+import { alertBox, text } from "../../theme/styles";
+import { RADIUS, SPACE, TYPE } from "../../theme/tokens";
+import { Badge } from "../ui/Badge";
 import {
   canSubmitExamAnswer,
   getExamTypeTag,
@@ -23,111 +26,63 @@ export function ExamQuestionCard({
 }: ExamQuestionCardProps) {
   const correct = submitted && isExamAnswerCorrect(question, answer);
   const tag = getExamTypeTag(question);
-  const accent = CATEGORY_COLORS[question.cat] ?? "#7C3AED";
+  const accent = CATEGORY_COLORS[question.cat] ?? BRAND.primary;
   const canSubmit = canSubmitExamAnswer(question, answer);
 
   return (
     <article
       style={{
-        marginBottom: 10,
-        background: "#fff",
-        border: `1.5px solid ${submitted ? (correct ? "#BBF7D0" : "#FECACA") : "#E5E7EB"}`,
-        borderRadius: 10,
+        marginBottom: SPACE.md,
+        background: BRAND.white,
+        border: `1px solid ${submitted ? (correct ? "#86EFAC" : "#FCA5A5") : BRAND.border}`,
+        borderRadius: RADIUS.md,
         overflow: "hidden",
-        boxShadow: "0 1px 4px rgba(0,0,0,.04)",
+        boxShadow: "0 1px 3px rgba(0,0,0,.05)",
       }}
     >
-      <div style={{ padding: "11px 13px 0" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 7, flexWrap: "wrap" }}>
-          <span
-            style={{
-              fontSize: 9.5,
-              fontWeight: 700,
-              color: "#6B7280",
-              background: "#F3F4F6",
-              padding: "2px 6px",
-              borderRadius: 99,
-            }}
-          >
+      <div style={{ padding: `${SPACE.lg}px ${SPACE.xl}px 0` }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: SPACE.sm,
+            marginBottom: SPACE.md,
+            flexWrap: "wrap",
+          }}
+        >
+          <Badge color="#374151" background="#F3F4F6">
             Q{question.id}
-          </span>
-          <span
-            style={{
-              fontSize: 9.5,
-              fontWeight: 700,
-              color: tag.color,
-              background: tag.bg,
-              padding: "2px 7px",
-              borderRadius: 99,
-            }}
-          >
+          </Badge>
+          <Badge color={tag.color} background={tag.bg}>
             {tag.label}
-          </span>
-          <span
-            style={{
-              fontSize: 9.5,
-              fontWeight: 600,
-              color: accent,
-              background: accent + "12",
-              padding: "2px 7px",
-              borderRadius: 99,
-            }}
-          >
+          </Badge>
+          <Badge color={accent} background={accent + "18"}>
             {question.cat}
-          </span>
+          </Badge>
           {submitted && (
-            <span
-              style={{
-                marginLeft: "auto",
-                fontSize: 9.5,
-                fontWeight: 700,
-                color: correct ? "#047857" : "#B91C1C",
-                background: correct ? "#DCFCE7" : "#FEE2E2",
-                padding: "2px 8px",
-                borderRadius: 99,
-              }}
+            <Badge
+              color={correct ? BRAND.pass : BRAND.fail}
+              background={correct ? "#DCFCE7" : "#FEE2E2"}
+              style={{ marginLeft: "auto" }}
             >
               {correct ? "✓ Correct" : "✗ Incorrect"}
-            </span>
+            </Badge>
           )}
         </div>
+
         {question.scenario && (
-          <div
-            style={{
-              fontSize: 10.5,
-              color: "#92400E",
-              background: "#FFF7ED",
-              border: "1px solid #FED7AA",
-              borderRadius: 5,
-              padding: "5px 8px",
-              marginBottom: 7,
-              lineHeight: 1.45,
-            }}
-          >
-            📋 Scenario-based question
-          </div>
+          <div style={{ ...alertBox("warn"), marginBottom: SPACE.md }}>📋 Scenario-based question</div>
         )}
         {question.type === "ma" && (
-          <div
-            style={{
-              fontSize: 10.5,
-              color: "#7C3AED",
-              background: "#FAF5FF",
-              border: "1px solid #DDD6FE",
-              borderRadius: 5,
-              padding: "4px 8px",
-              marginBottom: 7,
-            }}
-          >
+          <div style={{ ...alertBox("info"), marginBottom: SPACE.md }}>
             ✦ Select ALL correct answers — there may be more than one.
           </div>
         )}
-        <p style={{ fontSize: 12.5, color: "#111827", margin: "0 0 10px", lineHeight: 1.65, fontWeight: 500 }}>
-          {question.q}
-        </p>
+
+        <p style={{ ...text.body, fontWeight: 500, marginBottom: SPACE.lg }}>{question.q}</p>
       </div>
 
-      <div style={{ padding: "0 13px 11px", display: "grid", gap: 4 }}>
+      <div style={{ padding: `0 ${SPACE.xl}px ${SPACE.md}px`, display: "grid", gap: SPACE.sm }}>
         {question.opts.map((opt, oi) => {
           const isSelected =
             question.type === "ma" ? answer instanceof Set && answer.has(oi) : answer === oi;
@@ -136,8 +91,8 @@ export function ExamQuestionCard({
               ? (question.correct as number[]).includes(oi)
               : question.correct === oi;
           let bg = "#F9FAFB";
-          let border = "1px solid #E5E7EB";
-          let textColor = "#1F2937";
+          let border = `1px solid ${BRAND.border}`;
+          let textColor: string = BRAND.text;
           if (submitted) {
             if (isCorrectOption) {
               bg = "#DCFCE7";
@@ -149,9 +104,8 @@ export function ExamQuestionCard({
               textColor = "#7F1D1D";
             }
           } else if (isSelected) {
-            bg = accent + "0f";
+            bg = accent + "12";
             border = `1.5px solid ${accent}55`;
-            textColor = "#111827";
           }
           return (
             <div
@@ -165,20 +119,20 @@ export function ExamQuestionCard({
               style={{
                 display: "flex",
                 alignItems: "flex-start",
-                gap: 8,
-                padding: "8px 10px",
+                gap: SPACE.md,
+                padding: `${SPACE.md}px ${SPACE.lg}px`,
                 background: bg,
                 border,
-                borderRadius: 7,
+                borderRadius: RADIUS.sm,
                 cursor: submitted ? "default" : "pointer",
-                transition: "all .15s",
+                transition: "background .15s, border-color .15s",
               }}
             >
               <div
                 style={{
-                  width: 17,
-                  height: 17,
-                  borderRadius: question.type === "ma" ? 3 : "50%",
+                  width: 22,
+                  height: 22,
+                  borderRadius: question.type === "ma" ? 5 : "50%",
                   border: `2px solid ${
                     isSelected
                       ? submitted
@@ -196,22 +150,23 @@ export function ExamQuestionCard({
                       : accent
                     : "#fff",
                   flexShrink: 0,
-                  marginTop: 1,
+                  marginTop: 2,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  transition: "all .15s",
                 }}
               >
                 {isSelected && (
-                  <span style={{ fontSize: 9, color: "#fff", fontWeight: 700 }}>
+                  <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>
                     {question.type === "ma" ? "✓" : "●"}
                   </span>
                 )}
               </div>
-              <span style={{ fontSize: 11.5, color: textColor, lineHeight: 1.55, flex: 1 }}>{opt}</span>
+              <span style={{ fontSize: TYPE.base, color: textColor, lineHeight: TYPE.lineHeightRelaxed, flex: 1 }}>
+                {opt}
+              </span>
               {submitted && isCorrectOption && (
-                <span style={{ fontSize: 10, color: "#15803D", fontWeight: 700, flexShrink: 0 }}>✓</span>
+                <span style={{ fontSize: TYPE.sm, color: BRAND.pass, fontWeight: 700, flexShrink: 0 }}>✓</span>
               )}
             </div>
           );
@@ -225,15 +180,14 @@ export function ExamQuestionCard({
           disabled={!canSubmit}
           style={{
             width: "100%",
-            padding: 8,
+            padding: `${SPACE.md}px`,
             background: canSubmit ? accent : "#E5E7EB",
             border: "none",
-            borderTop: "1.5px solid #E5E7EB",
+            borderTop: `1px solid ${BRAND.border}`,
             cursor: canSubmit ? "pointer" : "default",
-            fontSize: 11.5,
+            fontSize: TYPE.base,
             fontWeight: 600,
             color: canSubmit ? "#fff" : "#9CA3AF",
-            transition: "all .15s",
           }}
         >
           Submit Answer
@@ -241,27 +195,27 @@ export function ExamQuestionCard({
       ) : (
         <div
           style={{
-            padding: "10px 13px 12px",
-            borderTop: `1.5px solid ${correct ? "#BBF7D0" : "#FECACA"}`,
+            padding: `${SPACE.lg}px ${SPACE.xl}px`,
+            borderTop: `1px solid ${correct ? "#BBF7D0" : "#FECACA"}`,
             background: correct ? "#F0FDF4" : "#FFF5F5",
           }}
         >
-          <div
+          <p
             style={{
-              fontSize: 10.5,
+              fontSize: TYPE.sm,
               fontWeight: 700,
               color: correct ? "#14532D" : "#7F1D1D",
-              marginBottom: 4,
+              margin: `0 0 ${SPACE.sm}px`,
             }}
           >
             💡 Explanation
-          </div>
+          </p>
           <p
             style={{
-              fontSize: 11.5,
+              fontSize: TYPE.base,
               color: correct ? "#166534" : "#991B1B",
               margin: 0,
-              lineHeight: 1.65,
+              lineHeight: TYPE.lineHeightRelaxed,
             }}
           >
             {question.explanation}

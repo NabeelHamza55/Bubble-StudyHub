@@ -1,5 +1,9 @@
 import { Accordion } from "../ui/Accordion";
+import { Badge } from "../ui/Badge";
 import { FLASHCARD_CATEGORIES } from "../../data";
+import { BRAND } from "../../theme/colors";
+import { alertBox, btnSecondary, layout, text } from "../../theme/styles";
+import { RADIUS, SPACE, TYPE } from "../../theme/tokens";
 import { useToggleSet } from "../../hooks/useToggleSet";
 
 interface FlashcardsTabProps {
@@ -15,49 +19,30 @@ export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
     (cat) => !sq || JSON.stringify(cat).toLowerCase().includes(sq)
   );
   const totalQuestions = FLASHCARD_CATEGORIES.reduce((n, c) => n + c.q.length, 0);
+  const progress = totalQuestions ? (revealed.size / totalQuestions) * 100 : 0;
 
   return (
-    <>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 }}>
-        <p style={{ fontSize: 11.5, color: "#6B7280", margin: 0 }}>Think through each before revealing.</p>
-        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-          <span style={{ fontSize: 11, color: "#047857", fontWeight: 600 }}>
+    <div style={layout.stack(SPACE.lg)}>
+      <div style={{ ...layout.row(SPACE.md), justifyContent: "space-between" }}>
+        <p style={text.muted}>Think through each question before revealing the answer.</p>
+        <div style={layout.row(SPACE.sm)}>
+          <span style={{ fontSize: TYPE.base, color: BRAND.pass, fontWeight: 700 }}>
             {revealed.size}/{totalQuestions}
           </span>
           {revealed.size > 0 && (
-            <button
-              type="button"
-              onClick={resetRevealed}
-              style={{
-                fontSize: 10.5,
-                color: "#6B7280",
-                background: "#F3F4F6",
-                border: "1px solid #E5E7EB",
-                borderRadius: 4,
-                padding: "2px 7px",
-                cursor: "pointer",
-              }}
-            >
+            <button type="button" onClick={resetRevealed} style={btnSecondary()}>
               Reset
             </button>
           )}
         </div>
       </div>
 
-      <div
-        style={{
-          height: 5,
-          borderRadius: 99,
-          background: "#E5E7EB",
-          marginBottom: 10,
-          overflow: "hidden",
-        }}
-      >
+      <div style={{ height: 10, borderRadius: 99, background: BRAND.border, overflow: "hidden" }}>
         <div
           style={{
-            width: `${(revealed.size / totalQuestions) * 100}%`,
+            width: `${progress}%`,
             height: "100%",
-            background: "linear-gradient(90deg,#7C3AED,#0369A1)",
+            background: `linear-gradient(90deg, ${BRAND.primary}, #0369A1)`,
             borderRadius: 99,
             transition: "width .4s",
           }}
@@ -78,74 +63,43 @@ export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
             badge={
               <>
                 {isHardest && (
-                  <span
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: "#B91C1C",
-                      background: "#FFF1F2",
-                      border: "1px solid #FECACA",
-                      padding: "1px 6px",
-                      borderRadius: 99,
-                      marginRight: 3,
-                    }}
-                  >
+                  <Badge color={BRAND.fail} background="#FFF1F2" border="1px solid #FECACA">
                     HARDEST
-                  </span>
+                  </Badge>
                 )}
-                <span
-                  style={{
-                    fontSize: 10.5,
-                    fontWeight: 600,
-                    color: done === cat.q.length ? "#047857" : "#9CA3AF",
-                    background: done === cat.q.length ? "#ECFDF5" : "#F3F4F6",
-                    padding: "2px 7px",
-                    borderRadius: 99,
-                  }}
+                <Badge
+                  color={done === cat.q.length ? BRAND.pass : BRAND.muted}
+                  background={done === cat.q.length ? "#ECFDF5" : "#F3F4F6"}
                 >
                   {done}/{cat.q.length}
-                </span>
+                </Badge>
               </>
             }
           >
             {isHardest && (
-              <div
-                style={{
-                  margin: "0 0 8px",
-                  padding: "7px 10px",
-                  background: "#FFF7ED",
-                  border: "1px solid #FED7AA",
-                  borderRadius: 6,
-                  fontSize: 11,
-                  color: "#92400E",
-                }}
-              >
+              <div style={{ ...alertBox("warn"), marginBottom: SPACE.md }}>
                 ⚠ THE HARDEST TOPIC. Most who fail underestimate this.
               </div>
             )}
-            <div style={{ display: "grid", gap: 3 }}>
-              {cat.q.map(([question, answer], qi) => {
-                const key = `${ci}-${qi}`;
-                const isRevealed = revealed.has(key);
-                return (
-                  <FlashcardItem
-                    key={key}
-                    index={qi}
-                    question={question}
-                    answer={answer}
-                    accent={cat.a}
-                    bg={cat.bg}
-                    rowBg={cat.rb}
-                    revealed={isRevealed}
-                    onReveal={() => reveal(key)}
-                  />
-                );
-              })}
+            <div style={layout.stack(SPACE.sm)}>
+              {cat.q.map(([question, answer], qi) => (
+                <FlashcardItem
+                  key={`${ci}-${qi}`}
+                  index={qi}
+                  question={question}
+                  answer={answer}
+                  accent={cat.a}
+                  bg={cat.bg}
+                  rowBg={cat.rb}
+                  revealed={revealed.has(`${ci}-${qi}`)}
+                  onReveal={() => reveal(`${ci}-${qi}`)}
+                />
+              ))}
             </div>
           </Accordion>
         );
       })}
-    </>
+    </div>
   );
 }
 
@@ -172,16 +126,24 @@ function FlashcardItem({
     <article
       style={{
         background: revealed ? rowBg : "#F9FAFB",
-        borderRadius: 7,
-        border: `1px solid ${revealed ? accent + "33" : "#E5E7EB"}`,
+        borderRadius: RADIUS.sm,
+        border: `1px solid ${revealed ? accent + "44" : BRAND.border}`,
         overflow: "hidden",
       }}
     >
-      <div style={{ padding: "8px 11px", display: "flex", gap: 7 }}>
-        <span style={{ fontSize: 9.5, fontWeight: 700, color: accent, minWidth: 22, marginTop: 1, flexShrink: 0 }}>
+      <div style={{ padding: `${SPACE.md}px ${SPACE.lg}px`, display: "flex", gap: SPACE.md }}>
+        <span
+          style={{
+            fontSize: TYPE.sm,
+            fontWeight: 700,
+            color: accent,
+            minWidth: 28,
+            flexShrink: 0,
+          }}
+        >
           Q{index + 1}
         </span>
-        <p style={{ fontSize: 12, color: "#1F2937", margin: 0, lineHeight: 1.5, fontWeight: 500 }}>{question}</p>
+        <p style={{ ...text.body, fontWeight: 500, flex: 1 }}>{question}</p>
       </div>
       {!revealed ? (
         <button
@@ -189,12 +151,12 @@ function FlashcardItem({
           onClick={onReveal}
           style={{
             width: "100%",
-            padding: 7,
+            padding: `${SPACE.md}px`,
             background: "#fff",
             border: "none",
-            borderTop: "1px solid #E5E7EB",
+            borderTop: `1px solid ${BRAND.border}`,
             cursor: "pointer",
-            fontSize: 11,
+            fontSize: TYPE.base,
             fontWeight: 600,
             color: accent,
           }}
@@ -205,11 +167,11 @@ function FlashcardItem({
             e.currentTarget.style.background = "#fff";
           }}
         >
-          Reveal Answer
+          Reveal answer
         </button>
       ) : (
-        <div style={{ padding: "8px 11px 9px 40px", borderTop: `1px solid ${accent}22` }}>
-          <p style={{ fontSize: 12, color: "#374151", margin: 0, lineHeight: 1.6 }}>{answer}</p>
+        <div style={{ padding: `${SPACE.md}px ${SPACE.lg}px ${SPACE.lg}px 52px`, borderTop: `1px solid ${accent}33` }}>
+          <p style={{ ...text.body, color: "#374151" }}>{answer}</p>
         </div>
       )}
     </article>

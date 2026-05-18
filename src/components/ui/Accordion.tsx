@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { BRAND } from "../../theme/colors";
+import { RADIUS, SPACE, TYPE } from "../../theme/tokens";
 
 interface AccordionProps {
   title: string;
@@ -26,12 +28,12 @@ export function Accordion({ title, accent, open, toggle, badge, children }: Acco
   return (
     <div
       style={{
-        marginBottom: 6,
-        borderRadius: 10,
-        background: "#fff",
-        border: `1.5px solid ${open ? accent + "55" : "#E5E7EB"}`,
-        boxShadow: open ? "0 2px 10px rgba(0,0,0,.07)" : "none",
-        transition: "all .25s",
+        marginBottom: SPACE.sm,
+        borderRadius: RADIUS.md,
+        background: BRAND.white,
+        border: `1px solid ${open ? accent + "66" : BRAND.border}`,
+        boxShadow: open ? "0 2px 8px rgba(0,0,0,.06)" : "none",
+        transition: "border-color .2s, box-shadow .2s",
       }}
     >
       <button
@@ -41,24 +43,44 @@ export function Accordion({ title, accent, open, toggle, badge, children }: Acco
           width: "100%",
           display: "flex",
           alignItems: "center",
-          gap: 8,
-          padding: "11px 13px",
+          gap: SPACE.md,
+          padding: `${SPACE.md}px ${SPACE.lg}px`,
           background: "none",
           border: "none",
           cursor: "pointer",
           textAlign: "left",
         }}
       >
-        <span style={{ width: 8, height: 8, borderRadius: "50%", background: accent, flexShrink: 0 }} />
-        <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: "#111827" }}>{title}</span>
+        <span
+          style={{
+            width: 10,
+            height: 10,
+            borderRadius: "50%",
+            background: accent,
+            flexShrink: 0,
+          }}
+        />
+        <span
+          style={{
+            flex: 1,
+            fontSize: TYPE.lg,
+            fontWeight: 600,
+            color: BRAND.text,
+            lineHeight: 1.35,
+          }}
+        >
+          {title}
+        </span>
         {badge}
         <span
           style={{
-            fontSize: 10,
+            fontSize: TYPE.sm,
             color: "#9CA3AF",
             transform: open ? "rotate(90deg)" : "none",
             transition: "transform .25s",
+            flexShrink: 0,
           }}
+          aria-hidden
         >
           ▶
         </span>
@@ -67,10 +89,10 @@ export function Accordion({ title, accent, open, toggle, badge, children }: Acco
         style={{
           height: open ? height : 0,
           overflow: "hidden",
-          transition: "height .4s cubic-bezier(.4,0,.2,1)",
+          transition: "height .35s cubic-bezier(.4,0,.2,1)",
         }}
       >
-        <div ref={contentRef} style={{ padding: "0 13px 11px" }}>
+        <div ref={contentRef} style={{ padding: `0 ${SPACE.lg}px ${SPACE.md}px` }}>
           {children}
         </div>
       </div>

@@ -1,16 +1,19 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState } from "react";
 import { PRACTICE_EXAM_QUESTIONS } from "../../data";
 import type { ExamQuestion, ExamTypeFilter } from "../../types";
 import { CATEGORY_COLORS, BRAND } from "../../theme/colors";
+import { card, layout, text, btnSecondary } from "../../theme/styles";
+import { SPACE, TYPE } from "../../theme/tokens";
 import { filterExamQuestions, isExamAnswerCorrect } from "../../utils/examGrading";
+import { FilterBar, FilterChip, FilterGroup } from "../ui/FilterBar";
 import { ExamQuestionCard } from "./ExamQuestionCard";
 
 const TYPE_FILTERS: { id: ExamTypeFilter; label: string }[] = [
   { id: "all", label: "All" },
   { id: "scenario", label: "🗒 Scenario" },
-  { id: "mc", label: "MC" },
-  { id: "ma", label: "✦ Multi-Answer" },
-  { id: "tf", label: "T/F" },
+  { id: "mc", label: "Multiple choice" },
+  { id: "ma", label: "✦ Multi-answer" },
+  { id: "tf", label: "True / false" },
 ];
 
 export function PracticeExam() {
@@ -51,31 +54,23 @@ export function PracticeExam() {
     }
   };
 
-  const resetAll = () => {
-    setAnswers({});
-    setSubmitted({});
-  };
-
   return (
-    <div>
+    <div style={layout.stack(SPACE.lg)}>
       {totalDone > 0 && (
         <div
           style={{
-            background: BRAND.white,
-            border: `1.5px solid ${BRAND.border}`,
-            borderRadius: 8,
-            padding: "10px 14px",
-            marginBottom: 10,
+            ...card,
             display: "flex",
             alignItems: "center",
-            gap: 12,
+            gap: SPACE.lg,
+            flexWrap: "wrap",
           }}
         >
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 11, color: BRAND.muted, marginBottom: 4 }}>
-              Score: {totalCorrect}/{totalDone} answered correctly
-            </div>
-            <div style={{ height: 6, borderRadius: 99, background: BRAND.border, overflow: "hidden" }}>
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <p style={{ ...text.muted, marginBottom: SPACE.sm }}>
+              Score: {totalCorrect}/{totalDone} correct
+            </p>
+            <div style={{ height: 10, borderRadius: 99, background: BRAND.border, overflow: "hidden" }}>
               <div
                 style={{
                   width: `${pct}%`,
@@ -88,39 +83,26 @@ export function PracticeExam() {
             </div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: pct >= 80 ? BRAND.pass : BRAND.fail }}>
+            <div style={{ fontSize: TYPE.xl, fontWeight: 700, color: pct >= 80 ? BRAND.pass : BRAND.fail }}>
               {pct}%
             </div>
-            <div style={{ fontSize: 9, color: "#9CA3AF" }}>Pass: 80%</div>
+            <p style={{ ...text.muted, fontSize: TYPE.xs, marginTop: 2 }}>Pass: 80%</p>
           </div>
           <button
             type="button"
-            onClick={resetAll}
-            style={{
-              fontSize: 10.5,
-              color: BRAND.muted,
-              background: "#F3F4F6",
-              border: `1px solid ${BRAND.border}`,
-              borderRadius: 5,
-              padding: "4px 10px",
-              cursor: "pointer",
+            onClick={() => {
+              setAnswers({});
+              setSubmitted({});
             }}
+            style={btnSecondary()}
           >
-            Reset All
+            Reset all
           </button>
         </div>
       )}
 
-      <div
-        style={{
-          background: BRAND.white,
-          border: `1.5px solid ${BRAND.border}`,
-          borderRadius: 8,
-          padding: "10px 12px",
-          marginBottom: 10,
-        }}
-      >
-        <FilterSection label="Filter by type">
+      <FilterBar>
+        <FilterGroup label="Question type">
           {TYPE_FILTERS.map((f) => (
             <FilterChip
               key={f.id}
@@ -131,96 +113,42 @@ export function PracticeExam() {
               {f.label}
             </FilterChip>
           ))}
-        </FilterSection>
-        <FilterSection label="Filter by topic">
-          {categories.map((c) => {
-            const color = CATEGORY_COLORS[c] ?? BRAND.primary;
-            return (
-              <FilterChip
-                key={c}
-                active={catFilter === c}
-                activeColor={color}
-                onClick={() => setCatFilter(c)}
-                subtle
-              >
-                {c === "all" ? "All Topics" : c}
-              </FilterChip>
-            );
-          })}
-        </FilterSection>
-      </div>
+        </FilterGroup>
+        <FilterGroup label="Topic">
+          {categories.map((c) => (
+            <FilterChip
+              key={c}
+              active={catFilter === c}
+              activeColor={CATEGORY_COLORS[c] ?? BRAND.primary}
+              subtle
+              onClick={() => setCatFilter(c)}
+            >
+              {c === "all" ? "All topics" : c}
+            </FilterChip>
+          ))}
+        </FilterGroup>
+      </FilterBar>
 
-      <p style={{ fontSize: 11, color: BRAND.muted, marginBottom: 8, fontWeight: 500 }}>
-        {visible.length} of {PRACTICE_EXAM_QUESTIONS.length} questions shown · {totalDone} answered
+      <p style={{ ...text.muted, fontWeight: 500 }}>
+        Showing {visible.length} of {PRACTICE_EXAM_QUESTIONS.length} · {totalDone} answered
       </p>
 
-      {visible.map((q) => (
-        <ExamQuestionCard
-          key={q.id}
-          question={q}
-          answer={answers[q.id]}
-          submitted={!!submitted[q.id]}
-          onSelect={(idx) => handleSelect(q, idx)}
-          onSubmit={() => {
-            if (answers[q.id] !== undefined) {
-              setSubmitted((prev) => ({ ...prev, [q.id]: true }));
-            }
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function FilterSection({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <>
-      <div
-        style={{
-          fontSize: 10,
-          fontWeight: 700,
-          color: "#9CA3AF",
-          textTransform: "uppercase",
-          letterSpacing: ".06em",
-          marginBottom: 5,
-        }}
-      >
-        {label}
+      <div style={layout.stack(SPACE.md)}>
+        {visible.map((q) => (
+          <ExamQuestionCard
+            key={q.id}
+            question={q}
+            answer={answers[q.id]}
+            submitted={!!submitted[q.id]}
+            onSelect={(idx) => handleSelect(q, idx)}
+            onSubmit={() => {
+              if (answers[q.id] !== undefined) {
+                setSubmitted((prev) => ({ ...prev, [q.id]: true }));
+              }
+            }}
+          />
+        ))}
       </div>
-      <div style={{ display: "flex", gap: 3, flexWrap: "wrap", marginBottom: 8 }}>{children}</div>
-    </>
-  );
-}
-
-function FilterChip({
-  active,
-  activeColor,
-  onClick,
-  subtle,
-  children,
-}: {
-  active: boolean;
-  activeColor: string;
-  onClick: () => void;
-  subtle?: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      style={{
-        padding: subtle ? "3px 8px" : "3px 9px",
-        borderRadius: 5,
-        border: `1.5px solid ${active ? activeColor : "#E5E7EB"}`,
-        background: active ? (subtle ? activeColor + "15" : activeColor) : "#fff",
-        color: active ? (subtle ? activeColor : "#fff") : "#374151",
-        fontSize: subtle ? 10.5 : 11,
-        fontWeight: 600,
-        cursor: "pointer",
-      }}
-    >
-      {children}
-    </button>
+    </div>
   );
 }

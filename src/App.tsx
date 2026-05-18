@@ -1,20 +1,19 @@
 import { useMemo, useState } from "react";
-import { AppHeader } from "./components/layout/AppHeader";
+import { AppSidebar } from "./components/layout/AppSidebar";
 import { PracticeTab } from "./components/tabs/PracticeTab";
 import { FlashcardsTab } from "./components/tabs/FlashcardsTab";
 import { StudyMaterialTab } from "./components/tabs/StudyMaterialTab";
 import { ResourcesTab } from "./components/tabs/ResourcesTab";
 import { FLASHCARD_CATEGORIES } from "./data";
 import type { TabId } from "./types";
-import { BRAND } from "./theme/colors";
+import "./styles/global.css";
 
-const GLOBAL_STYLES = `
-  * { box-sizing: border-box; }
-  input:focus {
-    border-color: #7C3AED !important;
-    box-shadow: 0 0 0 2px #7C3AED22 !important;
-  }
-`;
+const TAB_TITLES: Record<TabId, string> = {
+  practice: "Practice Exam",
+  quiz: "Flashcards",
+  topics: "Study Material",
+  extra: "Resources",
+};
 
 export default function App() {
   const [tab, setTab] = useState<TabId>("practice");
@@ -26,14 +25,8 @@ export default function App() {
   );
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: BRAND.surface,
-        fontFamily: "system-ui,-apple-system,sans-serif",
-      }}
-    >
-      <AppHeader
+    <div className="app-shell">
+      <AppSidebar
         tab={tab}
         onTabChange={setTab}
         search={search}
@@ -41,14 +34,18 @@ export default function App() {
         totalFlashcards={totalFlashcards}
       />
 
-      <main style={{ maxWidth: 640, margin: "0 auto", padding: "12px 12px 60px" }}>
-        {tab === "practice" && <PracticeTab />}
-        {tab === "quiz" && <FlashcardsTab searchQuery={search} />}
-        {tab === "topics" && <StudyMaterialTab searchQuery={search} />}
-        {tab === "extra" && <ResourcesTab />}
-      </main>
+      <div className="app-main">
+        <header className="app-main-header">
+          <h2 className="app-main-title">{TAB_TITLES[tab]}</h2>
+        </header>
 
-      <style>{GLOBAL_STYLES}</style>
+        <main className="app-main-content">
+          {tab === "practice" && <PracticeTab />}
+          {tab === "quiz" && <FlashcardsTab searchQuery={search} />}
+          {tab === "topics" && <StudyMaterialTab searchQuery={search} />}
+          {tab === "extra" && <ResourcesTab />}
+        </main>
+      </div>
     </div>
   );
 }
