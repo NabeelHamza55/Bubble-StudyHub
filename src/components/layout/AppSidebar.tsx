@@ -3,6 +3,7 @@ import type { TabId } from "../../types";
 import { PRACTICE_EXAM_QUESTIONS } from "../../data";
 
 const TABS: { id: TabId; label: string }[] = [
+  { id: "home", label: "Dashboard" },
   { id: "practice", label: "Practice Exam" },
   { id: "quiz", label: "Flashcards" },
   { id: "topics", label: "Study Material" },
@@ -10,6 +11,7 @@ const TABS: { id: TabId; label: string }[] = [
 ];
 
 const TAB_ICONS: Record<TabId, string> = {
+  home: "🏠",
   practice: "🎯",
   quiz: "⚡",
   topics: "📚",
@@ -34,6 +36,7 @@ export function AppSidebar({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const counts: Record<TabId, number | null> = {
+    home: null,
     practice: PRACTICE_EXAM_QUESTIONS.length,
     quiz: totalFlashcards,
     topics: 7,

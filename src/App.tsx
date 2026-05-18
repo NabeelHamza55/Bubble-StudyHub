@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { AppSidebar } from "./components/layout/AppSidebar";
+import { DashboardTab } from "./components/tabs/DashboardTab";
 import { PracticeTab } from "./components/tabs/PracticeTab";
 import { FlashcardsTab } from "./components/tabs/FlashcardsTab";
 import { StudyMaterialTab } from "./components/tabs/StudyMaterialTab";
@@ -9,6 +10,7 @@ import type { TabId } from "./types";
 import "./styles/global.css";
 
 const TAB_TITLES: Record<TabId, string> = {
+  home: "Dashboard",
   practice: "Practice Exam",
   quiz: "Flashcards",
   topics: "Study Material",
@@ -16,7 +18,7 @@ const TAB_TITLES: Record<TabId, string> = {
 };
 
 export default function App() {
-  const [tab, setTab] = useState<TabId>("practice");
+  const [tab, setTab] = useState<TabId>("home");
   const [search, setSearch] = useState("");
 
   const totalFlashcards = useMemo(
@@ -40,6 +42,9 @@ export default function App() {
         </header>
 
         <main className="app-main-content">
+          {tab === "home" && (
+            <DashboardTab totalFlashcards={totalFlashcards} onNavigate={setTab} />
+          )}
           {tab === "practice" && <PracticeTab />}
           {tab === "quiz" && <FlashcardsTab searchQuery={search} />}
           {tab === "topics" && <StudyMaterialTab searchQuery={search} />}
