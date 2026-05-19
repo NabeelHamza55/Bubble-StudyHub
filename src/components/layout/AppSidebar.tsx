@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { TabId } from "../../types";
 import { PRACTICE_EXAM_QUESTIONS, STUDY_QUIZ_QUESTIONS } from "../../data";
+import { IconMenu, IconSearch, TabIcon } from "../icons/TabIcons";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "home", label: "Dashboard" },
@@ -10,15 +11,6 @@ const TABS: { id: TabId; label: string }[] = [
   { id: "topics", label: "Study Material" },
   { id: "extra", label: "Resources" },
 ];
-
-const TAB_ICONS: Record<TabId, string> = {
-  home: "🏠",
-  practice: "🎯",
-  studyquiz: "📋",
-  quiz: "⚡",
-  topics: "📚",
-  extra: "🔗",
-};
 
 interface AppSidebarProps {
   tab: TabId;
@@ -60,7 +52,7 @@ export function AppSidebar({
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
         >
-          ☰
+          <IconMenu size={22} />
         </button>
         <span className="mobile-topbar-title">Bubble Study Hub</span>
       </header>
@@ -95,8 +87,8 @@ export function AppSidebar({
                   className={`sidebar-nav-item${active ? " is-active" : ""}`}
                   aria-current={active ? "page" : undefined}
                 >
-                  <span className="sidebar-nav-icon" aria-hidden>
-                    {TAB_ICONS[t.id]}
+                  <span className="sidebar-nav-icon">
+                    <TabIcon tab={t.id} size={20} />
                   </span>
                   <span className="sidebar-nav-label">{t.label}</span>
                   {count !== null && <span className="sidebar-nav-count">{count}</span>}
@@ -110,8 +102,8 @@ export function AppSidebar({
               Search
             </label>
             <div className="sidebar-search-wrap">
-              <span className="sidebar-search-icon" aria-hidden>
-                ⌕
+              <span className="sidebar-search-icon">
+                <IconSearch size={18} />
               </span>
               <input
                 id="global-search"

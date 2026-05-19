@@ -3,6 +3,7 @@ import {
   PRACTICE_EXAM_QUESTIONS,
   STUDY_QUIZ_QUESTIONS,
 } from "../../data";
+import { TabIcon } from "../icons/TabIcons";
 import { BRAND } from "../../theme/colors";
 import type { TabId } from "../../types";
 
@@ -13,42 +14,36 @@ interface DashboardTabProps {
 
 const QUICK_ACTIONS: {
   tab: TabId;
-  icon: string;
   title: string;
   description: string;
   accent: string;
 }[] = [
   {
     tab: "practice",
-    icon: "🎯",
     title: "Practice Exam",
     description: "50 scenario, MC, multi-answer, and T/F questions with explanations.",
     accent: BRAND.primary,
   },
   {
     tab: "studyquiz",
-    icon: "📋",
     title: "Doc & Scenario Quiz",
     description: "100 manual-based questions with real-world scenarios before the mock exam.",
     accent: "#6D28D9",
   },
   {
     tab: "quiz",
-    icon: "⚡",
     title: "Flashcards",
     description: "Reveal answers across all 7 certification topic areas.",
     accent: "#0369A1",
   },
   {
     tab: "topics",
-    icon: "📚",
     title: "Study Material",
     description: "Curated docs, videos, and blogs organized by official syllabus.",
     accent: "#047857",
   },
   {
     tab: "extra",
-    icon: "🔗",
     title: "Resources",
     description: "Mock tests, expert advice, and workload concepts to memorize.",
     accent: "#B45309",
@@ -119,8 +114,8 @@ export function DashboardTab({ totalFlashcards, onNavigate }: DashboardTabProps)
               className="dashboard-action-card"
               onClick={() => onNavigate(action.tab)}
             >
-              <span className="dashboard-action-icon" style={{ color: action.accent }} aria-hidden>
-                {action.icon}
+              <span className="dashboard-action-icon" style={{ color: action.accent }}>
+                <TabIcon tab={action.tab} size={28} />
               </span>
               <span className="dashboard-action-title">{action.title}</span>
               <span className="dashboard-action-desc">{action.description}</span>

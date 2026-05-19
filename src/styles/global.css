@@ -164,11 +164,13 @@ a {
 }
 
 .sidebar-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 24px;
-  font-size: 1.125rem;
-  line-height: 1;
-  text-align: center;
+  height: 24px;
   flex-shrink: 0;
+  color: inherit;
 }
 
 .sidebar-nav-label {
@@ -216,9 +218,10 @@ a {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
   color: #9ca3af;
   pointer-events: none;
-  font-size: 1rem;
 }
 
 .sidebar-search-input {
@@ -530,8 +533,9 @@ a {
 }
 
 .dashboard-action-icon {
-  font-size: 1.75rem;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  line-height: 0;
 }
 
 .dashboard-action-title {
