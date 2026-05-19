@@ -1,6 +1,6 @@
 /** Site-wide copy, SEO defaults, and legal. Set VITE_SITE_URL in .env for production canonical URLs. */
 export const SITE = {
-  name: "Bubble Certification Study Hub",
+  name: "Bubble Study Hub",
   shortName: "Bubble Study Hub",
   tagline: "Free Bubble Developer Certification prep — practice exams, flashcards, and study guides",
   description:
@@ -25,7 +25,7 @@ export const SITE = {
   creator: {
     name: "Nabeel Hamza",
     github: "https://github.com/NabeelHamza55",
-    repo: "https://github.com/NabeelHamza55/Bubble-Certification",
+    repo: "https://github.com/NabeelHamza55/Bubble-StudyHub",
   },
   get copyrightYear() {
     return new Date().getFullYear();
@@ -33,7 +33,7 @@ export const SITE = {
   /** Override with VITE_SITE_URL for correct canonical/OG URLs in production. */
   url:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL) ||
-    "https://bubble-certification-study-hub.example.com",
+    "https://bubble-studyhub.example.com",
   twitterHandle: "",
 } as const;
 

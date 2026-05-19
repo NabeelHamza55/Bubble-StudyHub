@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nabeelhamza55.github.io/Bubble-Certification/sitemap.xml
+Sitemap: https://nabeelhamza55.github.io/Bubble-StudyHub/sitemap.xml

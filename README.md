@@ -1,10 +1,10 @@
-# Bubble Certification Study Hub
+# Bubble Study Hub
 
 **Bubble Study Hub** is a free study companion for the [Bubble Developer Certification](https://bubble.io/certification). It brings practice questions, flashcards, and curated learning links into one place so you can prepare for the exam without signing up or paying for a course.
 
 Your progress saves automatically in your browser — pick up where you left off anytime.
 
-**Live app:** [https://nabeelhamza55.github.io/Bubble-Certification/](https://nabeelhamza55.github.io/Bubble-Certification/)
+**Live app:** [https://nabeelhamza55.github.io/Bubble-StudyHub/](https://nabeelhamza55.github.io/Bubble-StudyHub/)
 
 ---
 
@@ -94,7 +94,7 @@ The app follows the certification syllabus across seven areas, including:
 
 ## Credits
 
-Powered by **Mughalsoft** · © Mughalsoft · Built by **[Nabeel Hamza](https://github.com/NabeelHamza55)** — [Bubble-Certification](https://github.com/NabeelHamza55/Bubble-Certification)
+Powered by **Mughalsoft** · © Mughalsoft · Built by **[Nabeel Hamza](https://github.com/NabeelHamza55)** — [Bubble-StudyHub](https://github.com/NabeelHamza55/Bubble-StudyHub)
 
 ---
 
@@ -106,4 +106,4 @@ Bubble Study Hub is an independent community study tool. It is **not endorsed by
 
 ## Feedback
 
-Found a bug or have a suggestion? [Open an issue](https://github.com/NabeelHamza55/Bubble-Certification/issues) on GitHub.
+Found a bug or have a suggestion? [Open an issue](https://github.com/NabeelHamza55/Bubble-StudyHub/issues) on GitHub.

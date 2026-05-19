@@ -4,7 +4,7 @@ import { viteSingleFile } from "vite-plugin-singlefile";
 
 export default defineConfig(({ mode }) => {
   const standalone = mode === "single";
-  /** `./` for local/offline; `/Bubble-Certification/` for GitHub Pages (set in CI). */
+  /** `./` for local/offline; `/Bubble-StudyHub/` for GitHub Pages (set in CI). */
   const base = process.env.VITE_BASE_PATH ?? "./";
 
   return {

@@ -33,8 +33,8 @@ jobs:
       - name: Build for GitHub Pages
         run: npm run build
         env:
-          VITE_BASE_PATH: /Bubble-Certification/
-          VITE_SITE_URL: https://nabeelhamza55.github.io/Bubble-Certification
+          VITE_BASE_PATH: /Bubble-StudyHub/
+          VITE_SITE_URL: https://nabeelhamza55.github.io/Bubble-StudyHub
 
       - name: SPA fallback for client-side routes
         run: cp dist/index.html dist/404.html

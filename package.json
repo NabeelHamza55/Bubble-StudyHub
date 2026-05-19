@@ -1,12 +1,12 @@
 {
-  "name": "bubble-certification-study-hub",
+  "name": "bubble-studyhub",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "build:pages": "tsc --noEmit && VITE_BASE_PATH=/Bubble-Certification/ VITE_SITE_URL=https://nabeelhamza55.github.io/Bubble-Certification vite build",
+    "build:pages": "tsc --noEmit && VITE_BASE_PATH=/Bubble-StudyHub/ VITE_SITE_URL=https://nabeelhamza55.github.io/Bubble-StudyHub vite build",
     "build:file": "tsc --noEmit && vite build --mode single",
     "preview": "vite preview"
   },
