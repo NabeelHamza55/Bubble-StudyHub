@@ -3,7 +3,7 @@ import type { ExamQuestion, ExamTypeFilter } from "../../types";
 import { CATEGORY_COLORS, BRAND } from "../../theme/colors";
 import { card, layout, text, btnSecondary } from "../../theme/styles";
 import { SPACE, TYPE } from "../../theme/tokens";
-import { filterExamQuestions, isExamAnswerCorrect } from "../../utils/examGrading";
+import { filterExamQuestions, isExamAnswerCorrect, isMultiAnswerQuestion } from "../../utils/examGrading";
 import { FilterBar, FilterChip, FilterGroup } from "../ui/FilterBar";
 import { ExamQuestionCard } from "./ExamQuestionCard";
 
@@ -19,17 +19,19 @@ export interface ExamRunnerProps {
   questions: ExamQuestion[];
   passThreshold?: number;
   showPassHint?: boolean;
+  defaultTypeFilter?: ExamTypeFilter;
 }
 
 export function ExamRunner({
   questions,
   passThreshold = 80,
   showPassHint = true,
+  defaultTypeFilter = "all",
 }: ExamRunnerProps) {
   const [answers, setAnswers] = useState<Record<number, number | Set<number>>>({});
   const [submitted, setSubmitted] = useState<Record<number, boolean>>({});
   const [catFilter, setCatFilter] = useState("all");
-  const [typeFilter, setTypeFilter] = useState<ExamTypeFilter>("all");
+  const [typeFilter, setTypeFilter] = useState<ExamTypeFilter>(defaultTypeFilter);
 
   const categories = useMemo(() => ["all", ...new Set(questions.map((q) => q.cat))], [questions]);
 
@@ -47,7 +49,7 @@ export function ExamRunner({
 
   const handleSelect = (question: ExamQuestion, idx: number) => {
     if (submitted[question.id]) return;
-    if (question.type === "ma") {
+    if (isMultiAnswerQuestion(question)) {
       setAnswers((prev) => {
         const current = prev[question.id] instanceof Set ? (prev[question.id] as Set<number>) : new Set<number>();
         const next = new Set(current);

@@ -3,6 +3,7 @@ import { AppSidebar } from "./components/layout/AppSidebar";
 import { DashboardTab } from "./components/tabs/DashboardTab";
 import { PracticeTab } from "./components/tabs/PracticeTab";
 import { StudyQuizTab } from "./components/tabs/StudyQuizTab";
+import { HardQuizTab } from "./components/tabs/HardQuizTab";
 import { FlashcardsTab } from "./components/tabs/FlashcardsTab";
 import { StudyMaterialTab } from "./components/tabs/StudyMaterialTab";
 import { ResourcesTab } from "./components/tabs/ResourcesTab";
@@ -14,6 +15,7 @@ const TAB_TITLES: Record<TabId, string> = {
   home: "Dashboard",
   practice: "Practice Exam",
   studyquiz: "Doc & Scenario Quiz",
+  hardquiz: "Hard Mode Challenge",
   quiz: "Flashcards",
   topics: "Study Material",
   extra: "Resources",
@@ -49,6 +51,7 @@ export default function App() {
           )}
           {tab === "practice" && <PracticeTab />}
           {tab === "studyquiz" && <StudyQuizTab />}
+          {tab === "hardquiz" && <HardQuizTab />}
           {tab === "quiz" && <FlashcardsTab searchQuery={search} />}
           {tab === "topics" && <StudyMaterialTab searchQuery={search} />}
           {tab === "extra" && <ResourcesTab />}

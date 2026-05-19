@@ -44,7 +44,7 @@ export interface ExternalResource {
   u: string;
 }
 
-export type TabId = "home" | "practice" | "studyquiz" | "quiz" | "topics" | "extra";
+export type TabId = "home" | "practice" | "studyquiz" | "hardquiz" | "quiz" | "topics" | "extra";
 
 export type ResourceFilter = "all" | ResourceKind;
 

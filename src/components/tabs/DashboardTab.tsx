@@ -1,5 +1,6 @@
 import {
   FLASHCARD_CATEGORIES,
+  HARD_MA_QUESTIONS,
   PRACTICE_EXAM_QUESTIONS,
   STUDY_QUIZ_QUESTIONS,
 } from "../../data";
@@ -31,6 +32,12 @@ const QUICK_ACTIONS: {
     accent: "#6D28D9",
   },
   {
+    tab: "hardquiz",
+    title: "Hard Mode (MA)",
+    description: "35 expert multi-answer-only traps—select every correct option or fail.",
+    accent: "#B91C1C",
+  },
+  {
     tab: "quiz",
     title: "Flashcards",
     description: "Reveal answers across all 7 certification topic areas.",
@@ -54,6 +61,7 @@ const STUDY_PATH = [
   "Skim Study Material for weak areas (start with Workload — Section 06).",
   "Run through Flashcards until you can answer without peeking.",
   "Complete the Doc & Scenario Quiz (100 Qs) to validate manual concepts.",
+  "Crush Hard Mode (35 MA-only) — aim for 85%+ before the mock exam.",
   "Take the Practice Exam under timed conditions; aim for 80%+.",
   "Review wrong answers and revisit linked manual sections.",
 ];
@@ -85,6 +93,7 @@ export function DashboardTab({ totalFlashcards, onNavigate }: DashboardTabProps)
 
       <section className="dashboard-stats" aria-label="Study hub overview">
         <StatCard label="Doc quiz" value={String(STUDY_QUIZ_QUESTIONS.length)} hint="Manual & scenarios" />
+        <StatCard label="Hard mode" value={String(HARD_MA_QUESTIONS.length)} hint="MA-only expert" />
         <StatCard label="Practice exam" value={String(examCount)} hint="Cert-style mock" />
         <StatCard label="Flashcards" value={String(totalFlashcards)} hint="Across 7 topics" />
         <StatCard label="Pass score" value="80%" hint="Official exam threshold" />

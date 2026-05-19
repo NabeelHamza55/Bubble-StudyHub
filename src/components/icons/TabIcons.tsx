@@ -81,6 +81,14 @@ function IconLink(props: SvgIconProps) {
   );
 }
 
+function IconBolt(props: SvgIconProps) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z" />
+    </SvgIcon>
+  );
+}
+
 export function IconMenu(props: SvgIconProps) {
   return (
     <SvgIcon {...props}>
@@ -102,6 +110,7 @@ const TAB_ICON_MAP: Record<TabId, (props: SvgIconProps) => ReactNode> = {
   home: IconHome,
   practice: IconTarget,
   studyquiz: IconClipboard,
+  hardquiz: IconBolt,
   quiz: IconCards,
   topics: IconBook,
   extra: IconLink,

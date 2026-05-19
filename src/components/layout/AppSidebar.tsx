@@ -1,12 +1,13 @@
 import { useState } from "react";
 import type { TabId } from "../../types";
-import { PRACTICE_EXAM_QUESTIONS, STUDY_QUIZ_QUESTIONS } from "../../data";
+import { HARD_MA_QUESTIONS, PRACTICE_EXAM_QUESTIONS, STUDY_QUIZ_QUESTIONS } from "../../data";
 import { IconMenu, IconSearch, TabIcon } from "../icons/TabIcons";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "home", label: "Dashboard" },
   { id: "practice", label: "Practice Exam" },
   { id: "studyquiz", label: "Doc & Scenario Quiz" },
+  { id: "hardquiz", label: "Hard Mode (MA)" },
   { id: "quiz", label: "Flashcards" },
   { id: "topics", label: "Study Material" },
   { id: "extra", label: "Resources" },
@@ -33,6 +34,7 @@ export function AppSidebar({
     home: null,
     practice: PRACTICE_EXAM_QUESTIONS.length,
     studyquiz: STUDY_QUIZ_QUESTIONS.length,
+    hardquiz: HARD_MA_QUESTIONS.length,
     quiz: totalFlashcards,
     topics: 7,
     extra: null,

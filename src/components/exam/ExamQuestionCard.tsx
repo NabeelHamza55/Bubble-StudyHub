@@ -7,6 +7,7 @@ import {
   canSubmitExamAnswer,
   getExamTypeTag,
   isExamAnswerCorrect,
+  isMultiAnswerQuestion,
 } from "../../utils/examGrading";
 
 interface ExamQuestionCardProps {
@@ -28,6 +29,7 @@ export function ExamQuestionCard({
   const tag = getExamTypeTag(question);
   const accent = CATEGORY_COLORS[question.cat] ?? BRAND.primary;
   const canSubmit = canSubmitExamAnswer(question, answer);
+  const multiAnswer = isMultiAnswerQuestion(question);
 
   return (
     <article
@@ -73,7 +75,7 @@ export function ExamQuestionCard({
         {question.scenario && (
           <div style={{ ...alertBox("warn"), marginBottom: SPACE.md }}>📋 Scenario-based question</div>
         )}
-        {question.type === "ma" && (
+        {multiAnswer && (
           <div style={{ ...alertBox("info"), marginBottom: SPACE.md }}>
             ✦ Select ALL correct answers — there may be more than one.
           </div>
@@ -85,11 +87,10 @@ export function ExamQuestionCard({
       <div style={{ padding: `0 ${SPACE.xl}px ${SPACE.md}px`, display: "grid", gap: SPACE.sm }}>
         {question.opts.map((opt, oi) => {
           const isSelected =
-            question.type === "ma" ? answer instanceof Set && answer.has(oi) : answer === oi;
-          const isCorrectOption =
-            question.type === "ma"
-              ? (question.correct as number[]).includes(oi)
-              : question.correct === oi;
+            multiAnswer ? answer instanceof Set && answer.has(oi) : answer === oi;
+          const isCorrectOption = multiAnswer
+            ? (question.correct as number[]).includes(oi)
+            : question.correct === oi;
           let bg = "#F9FAFB";
           let border = `1px solid ${BRAND.border}`;
           let textColor: string = BRAND.text;
@@ -132,7 +133,7 @@ export function ExamQuestionCard({
                 style={{
                   width: 22,
                   height: 22,
-                  borderRadius: question.type === "ma" ? 5 : "50%",
+                  borderRadius: multiAnswer ? 5 : "50%",
                   border: `2px solid ${
                     isSelected
                       ? submitted
@@ -158,7 +159,7 @@ export function ExamQuestionCard({
               >
                 {isSelected && (
                   <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>
-                    {question.type === "ma" ? "✓" : "●"}
+                    {multiAnswer ? "✓" : "●"}
                   </span>
                 )}
               </div>

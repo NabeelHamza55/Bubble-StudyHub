@@ -33,9 +33,9 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    explanation:"FALSE. Dev and live databases are separate. Migration workflows must be executed in the target environment (often live via backend workflow or manual run)." },
 
   {id:1007,cat:"Bubble Interface",type:"mc",
-   q:"What is the primary purpose of Bubble's Debugger in Preview?",
-   opts:["Scan for missing privacy rules","Step through workflows and inspect expression values at each step","Compare live vs dev element trees","Export WU reports to CSV"],
-   correct:1,explanation:"The Debugger (Manual: testing workflows) pauses workflow execution in Preview so you can inspect data sources and step results—essential for certification-level troubleshooting."},
+   q:"Before deploying to live, which tool surfaces potential issues such as slow pages and missing SEO fields?",
+   opts:["Issue Checker in the editor","Data API admin panel","Repeating Group cell inspector","Plugin marketplace only"],
+   correct:0,explanation:"The Issue Checker (Manual: editor tools) flags common problems before deploy. The Debugger is for stepping through workflows in Preview—not the same as pre-deploy issue scanning."},
 
   {id:1008,cat:"Bubble Interface",type:"ma",
    q:"A startup uses collaborators on a marketplace app. Which practices follow Bubble's editor workflow guidance? (Select all that apply)",
@@ -63,9 +63,9 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    correct:1,explanation:"Bubble offers save history and branches (Manual). Concurrent edits on main can overwrite; branches isolate work. There is no live collaborative merge of workflow steps."},
 
   {id:1013,cat:"Bubble Interface",type:"ma",
-   q:"Which are found under Settings > General? (Select all that apply)",
-   opts:["App name and timezone","Maintenance mode","Workflow API enable toggle","Collaborator / app editor access","Custom domain configuration"],
-   correct:[0,1,3],explanation:"General holds app identity, timezone, maintenance, collaborators (Manual). API toggles live under Settings > API; domain under Domain/email."},
+   q:"Which settings belong under Settings > Domain / email rather than General? (Select all that apply)",
+   opts:["Custom domain for the published app","Sender email / email delivery configuration","Default app timezone","SSL certificate status for the custom domain","Workflow API public key"],
+   correct:[0,1,3],explanation:"Domain/email covers custom domains, sender identity, and SSL (Manual). Timezone and collaborators are under General; API keys under Settings > API."},
 
   {id:1014,cat:"Bubble Interface",type:"tf",
    q:"True or False: Preview mode always uses the same database as the live app so stakeholders see real production data.",
@@ -93,7 +93,7 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["All mobile layouts","Overlapping elements (badges on images, positioned modals) where flex flow isn't desired","Any RG cell layout","Replacing the responsive engine entirely"],
    correct:1,explanation:"Align to parent is absolute positioning within the parent (Manual). Row/Column is flex flow. Use align-to-parent for overlays, not general page structure."},
 
-  {id:1019,cat:"Layout & Styles",type:"mc",scenario:true,
+  {id:1019,cat:"Layout & Styles",type:"ma",scenario:true,
    q:"A SaaS dashboard RG looks fine on desktop but cells clip on tablet. Which fixes align with the manual? (Select all that apply)",
    opts:["Set reusable header width to Fill container","Add min width to RG cell inner groups so Row wraps","Use fixed 1200px width on the page root","Use conditionals to switch parent Row to Column below a breakpoint","Move Popups inside the RG for easier access"],
    correct:[0,1,3],explanation:"Fill container, min widths, and breakpoint conditionals are documented responsive patterns. Fixed page width breaks tablet. Popups must be page-level (Manual)." },
@@ -114,9 +114,9 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    correct:1,explanation:"Manual: In Row layouts, multiple Fill children share available horizontal space—key for responsive toolbars."},
 
   {id:1023,cat:"Layout & Styles",type:"ma",
-   q:"Which prevent a fit-height Group from shrinking when content is hidden? (Select all that apply)",
-   opts:["Group set to Fixed height","Hidden child without Collapse when hidden checked","Child with min height larger than remaining content","Parent Row always prevents height collapse","Using Column layout on the parent"],
-   correct:[0,2],explanation:"Fixed height and child min-height block collapse (Manual). Collapse when hidden on the child helps. Row vs Column doesn't inherently block vertical collapse."},
+   q:"At a mobile breakpoint, which help a Row of cards stack vertically instead of squeezing side-by-side? (Select all that apply)",
+   opts:["Conditional: parent Row becomes Column when page width < breakpoint","Min width on card groups so Row wraps instead of overlap","Fixed 1400px page width","Hide cards with privacy rules","Set each card to Fill container in a Column parent on mobile via conditional layout"],
+   correct:[0,1,4],explanation:"Manual responsive patterns: breakpoint conditionals, min width for wrap, and Column stacking. Fixed page width breaks mobile; privacy rules don't affect layout flow."},
 
   {id:1024,cat:"Layout & Styles",type:"mc",scenario:true,
    q:"A marketplace product card RE shows cropped images on some pages only. The RE root width is 320px fixed. Fix?",
@@ -138,7 +138,7 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["Smaller font only","Wrap text element in Column (or set max width %) inside a wrapping Row; test at mobile breakpoint","Convert text to image","Use Advanced filter on copy"],
    correct:1,explanation:"Manual recommends Column for stacked mobile content and constraining text width. Font size alone doesn't fix layout overflow."},
 
-  {id:1028,cat:"Layout & Styles",type:"mc",scenario:true,
+  {id:1028,cat:"Layout & Styles",type:"ma",scenario:true,
    q:"Building a 4-step signup on one page for a fintech app. Valid layout patterns? (Select all that apply)",
    opts:["Four Groups, visibility driven by number custom state","Four pages with Go to page passing a Thing parameter","Popup per step nested in each step Group","Single page, Row/Column layout with Collapse when hidden on inactive steps","Option-set-driven step labels in a text custom state controlling visibility"],
    correct:[0,1,4],explanation:"Custom state + groups and multi-page flows are standard (Manual). Nested popups are invalid; collapse helps layout but doesn't replace state-driven visibility."},
@@ -150,16 +150,16 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
 
   // ── FRONTEND FUNCTIONALITY (1030–1044) ──
   {id:1030,cat:"Frontend Functionality",type:"mc",scenario:true,
-   q:"Save Profile button: update Current User, go to dashboard only if save succeeded. Correct pattern?",
-   opts:["One workflow: Make changes to User, then Go to page with Only when on step 2 checking updated field","Two workflows: button + Do when User changes","Navigate first, update on dashboard load","Store in custom state only—states persist across navigation"],
-   correct:0,explanation:"Workflow steps run in order; per-step Only when gates step 2 (Manual: workflows). Custom states don't persist across Go to page."},
+   q:"A signup form uses autobinding on Inputs tied to a new User record created on page load. User closes the tab before clicking Submit. What happened?",
+   opts:["Nothing—autobinding only saves on button click","Field values were written to the User record as the user typed (if autobinding is enabled)","Custom state persisted the draft to the database","Privacy rules blocked all writes until Submit"],
+   correct:1,explanation:"Manual: autobinding saves input changes to the bound Thing in real time—no separate Submit required. Design carefully for partial signups and validation."},
 
   {id:1031,cat:"Frontend Functionality",type:"tf",
    q:"True or False: Custom states persist after page refresh and are visible to other users.",
    opts:["True","False"],correct:1,
    explanation:"FALSE. Custom states are per-session client memory (Manual). Use database or URL params for persistence."},
 
-  {id:1032,cat:"Frontend Functionality",type:"mc",scenario:true,
+  {id:1032,cat:"Frontend Functionality",type:"ma",scenario:true,
    q:"Marketplace onboarding wizard on one page without navigation. Valid approaches? (Select all that apply)",
    opts:["Groups per step + number custom state + conditionals","Five pages + URL parameters for partial data","RG with 5 rows as step navigator","Text custom state for step name + group visibility","Custom state shared across users via database"],
    correct:[0,1,3],explanation:"State-driven groups and multi-page flows are valid (Manual). RG-as-wizard is an anti-pattern. States aren't cross-user."},
@@ -170,9 +170,9 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    correct:1,explanation:"Constraints run server-side (Manual: searches). Advanced filters fetch then filter client-side—higher WU at scale."},
 
   {id:1034,cat:"Frontend Functionality",type:"mc",
-   q:"Difference between Trigger custom event vs Schedule custom event?",
-   opts:["Trigger runs inline in current workflow sequence; Schedule runs after current workflow completes (even at 0 delay)","Trigger is server-only","They are identical","Schedule is frontend-only"],
-   correct:0,explanation:"Manual: Trigger inserts steps now; Schedule dispatches separately—critical for order and error boundaries."},
+   q:"When should you use a Custom Event instead of duplicating the same workflow steps on five buttons?",
+   opts:["Never—copy/paste is faster","When multiple elements need the same sequence; define once in a Custom Event and Trigger it","Only in backend workflows","Only when passing a Thing between pages"],
+   correct:1,explanation:"Manual: Custom Events are reusable workflow modules triggered from many places—reduces duplication and keeps logic consistent across the app."},
 
   {id:1035,cat:"Frontend Functionality",type:"tf",
    q:"True or False: Popups may be nested inside Groups or RG cells.",
@@ -180,9 +180,9 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    explanation:"FALSE. Popups must be at page level (Manual: popup element)." },
 
   {id:1036,cat:"Frontend Functionality",type:"ma",
-   q:"Valid ways to pass data between pages? (Select all that apply)",
-   opts:["Go to page with Thing as page data (destination has type)","URL parameter with unique id + search on arrival","Custom state on origin page persists automatically","Send more parameters on Go to page","Write to DB before navigate, read on load"],
-   correct:[0,1,3,4],explanation:"Thing params, URL params, extra parameters, and DB handoff work (Manual). Custom states reset on navigation."},
+   q:"A page's type is set to 'Project'. Which statements about page data are true? (Select all that apply)",
+   opts:["Go to page can send a Project as the page's Thing","On that page, 'Current page's Project' refers to the sent Thing","You can set page type to Project without ever passing a Thing—page still loads","URL can include a text id that you search into a Project on page load","Page type forces every visitor to share one global Project record"],
+   correct:[0,1,3],explanation:"Manual: typed pages accept a Thing via navigation or URL lookup. The page can load empty until data is passed; page data is per navigation, not one global record."},
 
   {id:1037,cat:"Frontend Functionality",type:"mc",scenario:true,
    q:"Workflow has 3 steps. Step 2 only if checkbox checked; Step 3 always runs. Implementation?",
@@ -199,7 +199,7 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["True","False"],correct:1,
    explanation:"FALSE. It re-evaluates ~every 2s per session (Manual/performance)—use DB triggers to cache counts instead."},
 
-  {id:1040,cat:"Frontend Functionality",type:"mc",scenario:true,
+  {id:1040,cat:"Frontend Functionality",type:"ma",scenario:true,
    q:"E-commerce cart: update line quantity without full page reload. Sound patterns? (Select all that apply)",
    opts:["Custom state list mirroring cart + Make changes on checkout","Make changes to Cart Line on button click + refresh RG source","Advanced filter on all Products globally","Trigger custom event from quantity buttons","Schedule API workflow on every +/- click"],
    correct:[0,1,3],explanation:"State + DB updates and custom events are normal frontend patterns (Manual). Global advanced filters are inefficient; scheduling API per click is heavy."},
@@ -225,10 +225,10 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    correct:1,explanation:"Server-side constraints + privacy rules enforce tenancy (Manual). UI-only hiding is insecure."},
 
   // ── BACKEND FUNCTIONALITY (1045–1058) ──
-  {id:1045,cat:"Backend Functionality",type:"ma",
-   q:"True statements about Database Triggers? (Select all that apply)",
-   opts:["Fire on create/modify/delete of watched type","Re-fire infinitely when trigger updates same record","Expose before-change and after-change data","Run server-side; may ignore privacy rules","Replace Recurring Events entirely always"],
-   correct:[0,2,3],explanation:"Manual: triggers are reactive, server-side, with before/after; Bubble prevents simple infinite re-trigger loops on same record."},
+  {id:1045,cat:"Backend Functionality",type:"mc",
+   q:"A scheduled API workflow should run at 3:00 AM but must be cancelled if the user deletes their account first. Which action helps?",
+   opts:["Cancel a list of scheduled API workflows","Delete the User record only—Bubble auto-cancels all schedules","Use a frontend Do when to poll","Store schedule id in an option set"],
+   correct:0,explanation:"Manual: Cancel scheduled API workflow(s) removes pending server jobs. Always pair user deletion with cancelling related scheduled work."},
 
   {id:1046,cat:"Backend Functionality",type:"mc",scenario:true,
    q:"Weekly digest to 10,000 users Monday 9am. Best architecture?",
@@ -245,15 +245,15 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["Syntax error in step 3","Endpoint not exposed as public, Workflow API disabled, or wrong dev/live base URL","IP whitelist missing","RG limit exceeded"],
    correct:1,explanation:"Manual: 404 usually means API not enabled, workflow not public, or environment URL mismatch—not auth (401)." },
 
-  {id:1049,cat:"Backend Functionality",type:"ma",
-   q:"Valid Recursive API Workflow use cases? (Select all that apply)",
-   opts:["Email each of 5,000 users","Import CSV rows one per cycle","Update one field on button click","Nightly cleanup of variable-sized expired rows","Simulate recurring schedule on plans without native recurring events"],
-   correct:[0,1,3,4],explanation:"Manual: recursion processes lists with termination checks. Single-record button updates don't need recursion."},
+  {id:1049,cat:"Backend Functionality",type:"mc",scenario:true,
+   q:"Recursive API workflow processes donations. Bubble stops after ~400 seconds with timeout. Best adjustment?",
+   opts:["Remove termination condition","Process a fixed batch per cycle (e.g., 50 rows), schedule next cycle only if more remain","Move loop to frontend","Use Advanced filter on User"],
+   correct:1,explanation:"Manual: long server workflows hit time limits—batch with explicit continuation and termination is the certified pattern for large lists."},
 
   {id:1050,cat:"Backend Functionality",type:"mc",
-   q:"Schedule API Workflow on a list vs Recursive workflow?",
-   opts:["List schedules one job per item automatically; recursive manually schedules next cycle with custom termination","List runs all items in one WU-free batch","Recursive is frontend-only","List limited to 10 items"],
-   correct:0,explanation:"Manual contrasts built-in list scheduling vs hand-rolled recursion for complex control."},
+   q:"Can Custom Events be triggered from backend (API) workflows?",
+   opts:["No—Custom Events are frontend-only","Yes—backend workflows can Trigger custom events defined for the app","Only if the event name is in an option set","Only on live, not dev"],
+   correct:1,explanation:"Manual: Custom Events are reusable workflow definitions callable from frontend and backend contexts—keeps shared logic DRY across tiers."},
 
   {id:1051,cat:"Backend Functionality",type:"mc",scenario:true,
    q:"Healthcare app: when LabResult is created, notify assigned clinician. Should run even if patient can't see clinician email. Implementation?",
@@ -270,7 +270,7 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["Bubble stops at 100 automatically","Before scheduling next cycle, check remaining list empty or index >= count; stop if done","Cancel scheduled workflow each time list empty","Rely on WU cap to halt"],
    correct:1,explanation:"Manual: you must explicitly stop recursion—no auto stop at N iterations."},
 
-  {id:1054,cat:"Backend Functionality",type:"mc",scenario:true,
+  {id:1054,cat:"Backend Functionality",type:"ma",scenario:true,
    q:"Marketplace payout batch Friday night. Which are safe backend patterns? (Select all that apply)",
    opts:["API workflow with Ignore privacy rules only for trusted admin token calls","Public unauthenticated workflow that updates Payout fields","Schedule on list of pending payouts with per-row Stripe API Connector action","Frontend loop over 500 sellers","DB trigger on Payout with Only when Status changed to Approved"],
    correct:[0,2,4],explanation:"Manual: secure endpoints require auth; list scheduling and conditional triggers are standard. Public unauthenticated money workflows are critical vulnerabilities."},
@@ -296,10 +296,10 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    correct:1,explanation:"Manual recommends batching via recursion or schedule-on-list for large server jobs."},
 
   // ── DATABASE & SECURITY (1059–1072) ──
-  {id:1059,cat:"Database & Security",type:"mc",scenario:true,
-   q:"Healthcare: patients see own records; doctors see assigned patients; admins see all. Correct privacy rules? (Select all that apply)",
-   opts:["MedicalRecord: Patient = Current User → view/find","MedicalRecord: Current User Role Admin → view/find","MedicalRecord: Patient in Current User's AssignedPatients → view/find","Single rule: logged in → view all","Ignore privacy rules on all patient-facing pages"],
-   correct:[0,1,2],explanation:"Manual: privacy rules are OR'd; specific allow rules per role. Logged-in-only is insufficient for PHI."},
+  {id:1059,cat:"Database & Security",type:"ma",scenario:true,
+   q:"B2B SaaS: Invoice type must be hidden from other companies. Each Invoice has Company (Organization). Valid rules? (Select all that apply)",
+   opts:["Invoice: This Invoice's Company = Current User's Company → view, find","Invoice: Current User's Role is Admin → view, find (with separate admin role check)","Invoice: Current User is logged in → view all","Use RG advanced filter only—no privacy rules","Invoice: Company is empty → public demo invoices"],
+   correct:[0,1],explanation:"Manual multi-tenant pattern: org-scoped rules plus optional admin rule. Logged-in-only or UI-only filters leak data via API and direct ID access."},
 
   {id:1060,cat:"Database & Security",type:"mc",
    q:"True or False: With no privacy rules on a type, records are private by default.",
@@ -311,15 +311,15 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["Freelancers list on Project only","Assignment join type (Project + Freelancer + metadata)","All projects on User list only","No relations—search all users"],
    correct:1,explanation:"Manual/data modeling: join types scale for many-to-many and metadata (rates, status)." },
 
-  {id:1062,cat:"Database & Security",type:"mc",scenario:true,
+  {id:1062,cat:"Database & Security",type:"ma",scenario:true,
    q:"Security audit findings—actual vulnerabilities? (Select all that apply)",
    opts:["User type has zero privacy rules","Public API workflow modifies users without auth","Stripe secret in option set attribute","Ignore privacy rules in admin report backend workflow","Data API on with default deny view/find on all types"],
    correct:[0,1,2],explanation:"Manual: no rules=public; public write APIs and client-visible secrets fail audits. Ignore rules in trusted backend jobs can be valid. Default deny + API enabled can be OK."},
 
   {id:1063,cat:"Database & Security",type:"mc",
-   q:"What does Find in searches control?",
-   opts:["Field visibility inside a record","Whether records appear in Search for results","Whether records can be deleted","SMTP settings"],
-   correct:1,explanation:"Manual: separate from View all fields—records can be viewable if directly referenced but not searchable."},
+   q:"A user can open an Order by direct link (view allowed) but the Order must not appear in 'Search for Orders' results. Which configuration?",
+   opts:["View all fields: Yes; Find in searches: No on the matching privacy rule","Find in searches: Yes; View all fields: No","No privacy rules—use hidden RG","Disable Data API only"],
+   correct:0,explanation:"Manual: View and Find are independent—allow direct Thing access via URL while excluding records from search results."},
 
   {id:1064,cat:"Database & Security",type:"mc",
    q:"True or False: Privacy rules are enforced server-side before data reaches the client.",
@@ -331,10 +331,10 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["Email allow list on each record","Organization field on types + rule This Organization = Current User's Organization","Separate Bubble app per tenant only","Advanced filters only, no privacy rules"],
    correct:1,explanation:"Manual standard multi-tenant pattern: org field + privacy rules on all tenant data types."},
 
-  {id:1066,cat:"Database & Security",type:"ma",
-   q:"True about Option Sets? (Select all that apply)",
-   opts:["Client-side; zero WU to display","Can have attributes (text, image, color)","Values editable at runtime via workflows","Good for static enums like Order Status","Can be stored as field values on Things"],
-   correct:[0,1,3,4],explanation:"Manual: option sets are static in editor, client-cached, not for volatile inventory."},
+  {id:1066,cat:"Database & Security",type:"mc",
+   q:"Product catalog with 50,000 SKUs, prices change hourly, inventory tracked per warehouse. Best data approach?",
+   opts:["Option set for each SKU","Custom type Product with fields; searches with constraints","User type list field","Text custom state array"],
+   correct:1,explanation:"Manual: large volatile catalogs belong in the database (custom types), not option sets. Option sets suit small static enumerations."},
 
   {id:1067,cat:"Database & Security",type:"mc",scenario:true,
    q:"Privacy rules use OR logic across rules on one type. User matches Rule A (member) and not Rule B (admin). Can they access?",
@@ -356,7 +356,7 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["RG page size","Privacy rules on Order (view/find restricted to owner)","Font size","Custom domain"],
    correct:1,explanation:"Manual: without privacy rules, direct ID access or searches may leak data—rules must restrict view and find."},
 
-  {id:1071,cat:"Database & Security",type:"mc",scenario:true,
+  {id:1071,cat:"Database & Security",type:"ma",scenario:true,
    q:"Marketplace messages between buyer and seller. Which rules are appropriate? (Select all that apply)",
    opts:["Message: Sender = Current User OR Recipient = Current User → view","Message: logged in → view all for moderation UI on admin role rule","Message: Current User Role = Admin → view/find","Store messages in custom state only","No rules—RG advanced filter"],
    correct:[0,2],explanation:"Manual: participant-based rules plus explicit admin rule. Custom states aren't shared; advanced filters without rules are insecure."},
@@ -372,25 +372,25 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["Only when Status changed to Paid (or relevant field changed)","Cache in custom state on page","Move trigger to frontend","Delete trigger"],
    correct:0,explanation:"Manual/performance: tighten trigger Only when to meaningful changes—every modify evaluates trigger."},
 
-  {id:1074,cat:"Performance & Workload",type:"mc",
-   q:"Which consume Workload Units? (Select all that apply)",
-   opts:["Toggle Group visibility via workflow","Search for Users with constraints on page load","Change custom state","Schedule API workflow in 10 minutes","DB trigger Only when evaluation after modify","Text color conditional on custom state"],
-   correct:[1,3,4],explanation:"Manual: WU = server work—searches, schedules, trigger evaluations. Pure client UI/state = no WU."},
+  {id:1074,cat:"Performance & Workload",type:"ma",
+   q:"A page loads 6 Repeating Groups each with its own Search for Orders. How to reduce initial WU? (Select all that apply)",
+   opts:["Combine into fewer searches; pass results via custom state or parent Group","Add constraints and limits to each search","Use 6 API Connector Data calls instead","Defer non-critical RGs until tab is shown (conditional data source)","Hide RGs with collapse when hidden only"],
+   correct:[0,1,3],explanation:"Manual: fewer server searches and deferred loading cut page-load WU. More API Data calls add WU; collapse does not stop data evaluation."},
 
   {id:1075,cat:"Performance & Workload",type:"mc",scenario:true,
    q:"RG 50 products; each cell searches Category by ID. Slow loads. Best fix?",
    opts:["Limit 1 on inner search","Store Category as Thing field on Product; display Current cell's Product's Category's name","Advanced filter on RG","API Connector per cell"],
    correct:1,explanation:"Manual: eliminate N+1 queries via proper relational fields—performance best practice."},
 
-  {id:1076,cat:"Performance & Workload",type:"mc",scenario:true,
+  {id:1076,cat:"Performance & Workload",type:"ma",scenario:true,
    q:"Dashboard: 200-order RG with per-cell lookups, Do when polling search every 2s, hidden RGs. WU reductions? (Select all that apply)",
    opts:["RG limit 20 + pagination","Status field on Order instead of per-cell search","Replace polling with trigger-updated cached count","Collapse when hidden stops hidden RG data load","Add date/user constraints to RG source"],
    correct:[0,1,2,4],explanation:"Manual: pagination, denormalization, triggers vs polling, constraints reduce WU. Collapse is layout-only."},
 
-  {id:1077,cat:"Performance & Workload",type:"mc",
-   q:"True or False: Search for Orders:count is lightweight because only a number returns.",
-   opts:["True","False"],correct:1,
-   explanation:"FALSE. Manual: count still executes full search server-side—cache counts via fields/triggers when possible."},
+  {id:1077,cat:"Performance & Workload",type:"tf",
+   q:"True or False: A Recurring Event that runs every minute but has an empty workflow (no actions) still consumes Workload Units.",
+   opts:["True","False"],correct:0,
+   explanation:"TRUE. Manual: scheduled backend execution and condition evaluation incur WU even when no database actions run—avoid tight empty schedules."},
 
   {id:1078,cat:"Performance & Workload",type:"mc",
    q:"Update 40 records at once—most WU-efficient?",
@@ -398,9 +398,9 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    correct:1,explanation:"Manual: list make changes is one batched server operation."},
 
   {id:1079,cat:"Performance & Workload",type:"ma",
-   q:"Which consume ZERO WU? (Select all that apply)",
-   opts:["Display option set in text","Conditional on custom state color","Search returning zero rows","Show/hide group action","API Connector Data call on page load"],
-   correct:[0,1,3],explanation:"Manual: zero-row search still costs WU; API Connector data loads are server-side."},
+   q:"Which file-handling choices reduce WU on a document-upload feature? (Select all that apply)",
+   opts:["Resize/compress images before upload when possible","Store files only in option sets","Use Bubble's file fields on Things with appropriate privacy rules","Upload 50 files in one workflow loop without batching","Serve static assets from a CDN plugin instead of duplicating large files in DB fields"],
+   correct:[0,2,4],explanation:"Manual: smaller uploads and proper file fields reduce transfer/processing WU. Option sets aren't for files; unbatched loops multiply server work."},
 
   {id:1080,cat:"Performance & Workload",type:"mc",scenario:true,
    q:"SaaS app notification badge uses Do when + search count every 2s for 500 concurrent users. Impact?",
@@ -422,7 +422,7 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["They run server-side and consume WU each load","They break responsive engine","They disable privacy rules automatically","They require branches"],
    correct:0,explanation:"Manual: Data calls execute server-side per load—use option sets for static config (0 WU)." },
 
-  {id:1084,cat:"Performance & Workload",type:"mc",scenario:true,
+  {id:1084,cat:"Performance & Workload",type:"ma",scenario:true,
    q:"RG performance checklist for 100k-row table. Valid? (Select all that apply)",
    opts:["Server-side constraints (date, status, owner)","Pagination with limit","Per-cell Do a search for related Thing","Full table advanced filter","Index-friendly fields used in constraints"],
    correct:[0,1,4],explanation:"Manual: constrain, paginate, denormalize—not full scans or per-cell searches at scale."},
@@ -443,10 +443,10 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["Recurring poll Stripe","Public backend API workflow URL in Stripe; workflow parses event and updates Order","Frontend Do when on dashboard","Data API POST with admin token in Stripe"],
    correct:1,explanation:"Manual: inbound webhooks hit exposed backend API workflows—not API Connector (outbound only)." },
 
-  {id:1088,cat:"APIs & Integrations",type:"ma",
-   q:"True about API Connector? (Select all that apply)",
-   opts:["Use as Data or Action","Private parameters stay server-side","Receives inbound webhooks natively","Initialize call maps response fields","Shared headers apply to all calls in that API"],
-   correct:[0,1,3,4],explanation:"Manual: Connector is outbound; webhooks use Workflow API. Shared headers are API-wide."},
+  {id:1088,cat:"APIs & Integrations",type:"mc",
+   q:"Third-party API requires OAuth 2.0 user login. Where is this configured in Bubble?",
+   opts:["API Connector — enable OAuth on the API, complete provider setup, use in calls","Data API settings","Privacy rules on User","Option set attributes"],
+   correct:0,explanation:"Manual: API Connector supports OAuth2 for outbound authenticated calls. Inbound webhooks still use Workflow API, not Connector."},
 
   {id:1089,cat:"APIs & Integrations",type:"mc",
    q:"Mobile app reads/creates user-scoped records as logged-in users. Use?",
@@ -459,11 +459,11 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    explanation:"TRUE. Manual: same rules as app except admin token bypass."},
 
   {id:1091,cat:"APIs & Integrations",type:"mc",
-   q:"Where to store third-party API secret?",
-   opts:["Option set","API Connector private header/parameter","Page custom state","Public text element"],
-   correct:1,explanation:"Manual: private Connector params are server-side; option sets and states are client-visible."},
+   q:"Partner sends POST to your app when a shipment ships. You need Bubble to receive it. Correct integration?",
+   opts:["API Connector Data call","Expose a backend Workflow API endpoint; partner POSTs to that URL","Data API GET from partner on a schedule","Custom state webhook listener"],
+   correct:1,explanation:"Manual: inbound events use Workflow API (backend workflows). API Connector is outbound-only; polling wastes WU and delays updates."},
 
-  {id:1092,cat:"APIs & Integrations",type:"mc",
+  {id:1092,cat:"APIs & Integrations",type:"ma",
    q:"Data API vs Workflow API—correct? (Select all that apply)",
    opts:["Data API: REST CRUD on types","Workflow API: run defined backend workflows","Data API always bypasses privacy","Both enabled in Settings > API","Workflow API can return data via Return data from API"],
    correct:[0,1,3,4],explanation:"Manual distinguishes REST data access vs custom workflow endpoints; privacy applies without admin token."},
@@ -483,7 +483,7 @@ export const STUDY_QUIZ_QUESTIONS: ExamQuestion[] = [
    opts:["True","False"],correct:1,
    explanation:"FALSE. Manual: admin token bypasses all privacy—extractable from binaries; use user auth."},
 
-  {id:1096,cat:"APIs & Integrations",type:"mc",
+  {id:1096,cat:"APIs & Integrations",type:"ma",
    q:"Healthcare partner polls your app for new appointments every 5 seconds from 50 clinics. Problems? (Select all that apply)",
    opts:["Polling wastes WU vs webhook push to your API workflow","Data API admin token in their script bypasses patient privacy","API Connector Action on a schedule per clinic is lighter than polling","Misconfigured public workflow could expose PHI","Option sets for appointment times are ideal live schedules"],
    correct:[0,1,3],explanation:"Manual: prefer event-driven webhooks; never share admin tokens; public endpoints risk PHI exposure."},
