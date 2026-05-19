@@ -10,7 +10,7 @@ export const TAB_TITLES: Record<TabId, string> = {
   extra: "Resources",
 };
 
-/** Hash-router paths (e.g. `#/practice`). */
+/** Browser history paths (e.g. `/practice`). */
 export const TAB_PATHS: Record<TabId, string> = {
   home: "/",
   practice: "/practice",

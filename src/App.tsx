@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { HashRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./theme/ThemeContext";
 import { AppSidebar } from "./components/layout/AppSidebar";
+import { HashUrlRedirect } from "./components/routing/HashUrlRedirect";
 import { LegacyTabRedirect } from "./components/routing/LegacyTabRedirect";
 import { DashboardTab } from "./components/tabs/DashboardTab";
 import { PracticeTab } from "./components/tabs/PracticeTab";
@@ -62,13 +63,20 @@ function AppShell() {
   );
 }
 
+function routerBasename(): string | undefined {
+  const base = import.meta.env.BASE_URL;
+  if (!base || base === "/") return undefined;
+  return base.endsWith("/") ? base.slice(0, -1) : base;
+}
+
 export default function App() {
   return (
     <ThemeProvider>
-      <HashRouter>
+      <BrowserRouter basename={routerBasename()}>
+        <HashUrlRedirect />
         <LegacyTabRedirect />
         <AppShell />
-      </HashRouter>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
