@@ -1107,18 +1107,34 @@ a {
 
 .dashboard-footer {
   margin-top: 32px;
-  padding: 20px 24px;
+  padding: 16px 20px;
   border-top: 1px solid var(--app-border);
   background: var(--app-surface-muted);
   border-radius: 12px;
   text-align: center;
 }
 
-.dashboard-footer-copyright {
-  margin: 0 0 6px;
-  font-size: 0.8125rem;
+.dashboard-footer-attribution,
+.site-footer-attribution,
+.footer-attribution {
+  margin: 0 0 8px;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: var(--app-text-muted);
+}
+
+.dashboard-footer-attribution a,
+.site-footer-attribution a,
+.footer-attribution a {
+  color: var(--app-accent);
   font-weight: 600;
-  color: var(--app-text-secondary);
+  text-decoration: none;
+}
+
+.dashboard-footer-attribution a:hover,
+.site-footer-attribution a:hover,
+.footer-attribution a:hover {
+  text-decoration: underline;
 }
 
 .dashboard-footer-note {

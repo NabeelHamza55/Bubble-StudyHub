@@ -16,8 +16,17 @@ export const SITE = {
     "Bubble workload exam",
   ],
   locale: "en_US",
-  author: "Bubble Study Hub",
-  copyrightHolder: "Bubble Study Hub",
+  author: "Mughalsoft",
+  copyrightHolder: "Mughalsoft",
+  publisher: {
+    name: "Mughalsoft",
+    url: "",
+  },
+  creator: {
+    name: "Nabeel Hamza",
+    github: "https://github.com/NabeelHamza55",
+    repo: "https://github.com/NabeelHamza55/Bubble-Certification",
+  },
   get copyrightYear() {
     return new Date().getFullYear();
   },
@@ -28,4 +37,4 @@ export const SITE = {
   twitterHandle: "",
 } as const;
 
-export const COPYRIGHT = `© ${SITE.copyrightYear} ${SITE.copyrightHolder}. All rights reserved.`;
+export const ATTRIBUTION = `Powered by ${SITE.publisher.name} · © ${SITE.copyrightYear} ${SITE.copyrightHolder} · Built by ${SITE.creator.name}`;

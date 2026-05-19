@@ -46,6 +46,19 @@ export function landingJsonLd(origin: string) {
     },
     {
       "@context": "https://schema.org",
+      "@type": "Organization",
+      name: SITE.publisher.name,
+      ...(SITE.publisher.url ? { url: SITE.publisher.url } : {}),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: SITE.creator.name,
+      url: SITE.creator.github,
+      sameAs: [SITE.creator.github, SITE.creator.repo],
+    },
+    {
+      "@context": "https://schema.org",
       "@type": "FAQPage",
       mainEntity: [
         {

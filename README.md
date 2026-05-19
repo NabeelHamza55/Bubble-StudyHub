@@ -92,6 +92,12 @@ The app follows the certification syllabus across seven areas, including:
 
 ---
 
+## Credits
+
+Powered by **Mughalsoft** · © Mughalsoft · Built by **[Nabeel Hamza](https://github.com/NabeelHamza55)** — [Bubble-Certification](https://github.com/NabeelHamza55/Bubble-Certification)
+
+---
+
 ## Disclaimer
 
 Bubble Study Hub is an independent community study tool. It is **not endorsed by or connected to Bubble.io**. Use it alongside the [official Bubble manual](https://manual.bubble.io/) and your own hands-on practice in the editor.

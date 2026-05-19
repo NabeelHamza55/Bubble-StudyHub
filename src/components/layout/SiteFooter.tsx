@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { COPYRIGHT, SITE } from "../../config/site";
+import { SITE } from "../../config/site";
 import { tabToPath } from "../../routes/tabRoutes";
+import { FooterAttribution } from "./FooterAttribution";
 
 interface SiteFooterProps {
   /** Show compact links on app pages vs full footer on landing */
@@ -16,8 +17,6 @@ const FOOTER_LINKS = [
 ] as const;
 
 export function SiteFooter({ variant = "compact" }: SiteFooterProps) {
-  const year = SITE.copyrightYear;
-
   return (
     <footer className={`site-footer site-footer--${variant}`} role="contentinfo">
       <div className="site-footer-inner">
@@ -40,15 +39,10 @@ export function SiteFooter({ variant = "compact" }: SiteFooterProps) {
         </nav>
 
         <div className="site-footer-legal">
-          <p className="site-footer-copyright">
-            © {year} {SITE.copyrightHolder}. All rights reserved.
-          </p>
+          <FooterAttribution className="site-footer-attribution" />
           <p className="site-footer-disclaimer">
             Not affiliated with Bubble.io. Exam content is study material only; questions are
             practice mocks, not official exam items.
-          </p>
-          <p className="site-footer-copy-note" aria-hidden="true">
-            {COPYRIGHT}
           </p>
         </div>
       </div>
