@@ -46,6 +46,7 @@ export function HardQuizTab() {
       </section>
       <ExamRunner
         questions={HARD_MA_QUESTIONS}
+        quizId="hardquiz"
         passThreshold={85}
         showPassHint
         defaultTypeFilter="ma"

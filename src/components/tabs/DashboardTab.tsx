@@ -1,16 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import {
   FLASHCARD_CATEGORIES,
   HARD_MA_QUESTIONS,
   PRACTICE_EXAM_QUESTIONS,
   STUDY_QUIZ_QUESTIONS,
 } from "../../data";
+import { tabToPath } from "../../routes/tabRoutes";
 import { TabIcon } from "../icons/TabIcons";
 import { BRAND } from "../../theme/colors";
 import type { TabId } from "../../types";
 
 interface DashboardTabProps {
   totalFlashcards: number;
-  onNavigate: (tab: TabId) => void;
 }
 
 const QUICK_ACTIONS: {
@@ -66,7 +67,9 @@ const STUDY_PATH = [
   "Review wrong answers and revisit linked manual sections.",
 ];
 
-export function DashboardTab({ totalFlashcards, onNavigate }: DashboardTabProps) {
+export function DashboardTab({ totalFlashcards }: DashboardTabProps) {
+  const navigate = useNavigate();
+  const go = (tab: TabId) => navigate(tabToPath(tab));
   const examCount = PRACTICE_EXAM_QUESTIONS.length;
 
   return (
@@ -79,13 +82,13 @@ export function DashboardTab({ totalFlashcards, onNavigate }: DashboardTabProps)
           community links. Pick a starting point below or jump straight into the exam simulator.
         </p>
         <div className="dashboard-hero-actions">
-          <button type="button" className="dashboard-btn-primary" onClick={() => onNavigate("studyquiz")}>
+          <button type="button" className="dashboard-btn-primary" onClick={() => go("studyquiz")}>
             Start doc quiz (100 Qs)
           </button>
-          <button type="button" className="dashboard-btn-secondary" onClick={() => onNavigate("practice")}>
+          <button type="button" className="dashboard-btn-secondary" onClick={() => go("practice")}>
             Practice exam
           </button>
-          <button type="button" className="dashboard-btn-secondary" onClick={() => onNavigate("quiz")}>
+          <button type="button" className="dashboard-btn-secondary" onClick={() => go("quiz")}>
             Flashcards
           </button>
         </div>
@@ -121,7 +124,7 @@ export function DashboardTab({ totalFlashcards, onNavigate }: DashboardTabProps)
               key={action.tab}
               type="button"
               className="dashboard-action-card"
-              onClick={() => onNavigate(action.tab)}
+              onClick={() => go(action.tab)}
             >
               <span className="dashboard-action-icon" style={{ color: action.accent }}>
                 <TabIcon tab={action.tab} size={28} />

@@ -31,7 +31,7 @@ export function StudyQuizTab() {
           </div>
         </dl>
       </section>
-      <ExamRunner questions={STUDY_QUIZ_QUESTIONS} passThreshold={75} />
+      <ExamRunner questions={STUDY_QUIZ_QUESTIONS} quizId="studyquiz" passThreshold={75} />
     </div>
   );
 }

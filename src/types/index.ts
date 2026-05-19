@@ -49,3 +49,6 @@ export type TabId = "home" | "practice" | "studyquiz" | "hardquiz" | "quiz" | "t
 export type ResourceFilter = "all" | ResourceKind;
 
 export type ExamTypeFilter = "all" | "scenario" | "mc" | "ma" | "tf";
+
+/** Keys for persisted quiz progress (practice + study quizzes). */
+export type QuizId = "practice" | "studyquiz" | "hardquiz";

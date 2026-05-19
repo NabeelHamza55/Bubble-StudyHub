@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import type { TabId } from "../../types";
 import { HARD_MA_QUESTIONS, PRACTICE_EXAM_QUESTIONS, STUDY_QUIZ_QUESTIONS } from "../../data";
+import { tabToPath } from "../../routes/tabRoutes";
 import { IconMenu, IconSearch, TabIcon } from "../icons/TabIcons";
 import { ThemeToggle } from "../ui/ThemeToggle";
 
@@ -15,16 +17,12 @@ const TABS: { id: TabId; label: string }[] = [
 ];
 
 interface AppSidebarProps {
-  tab: TabId;
-  onTabChange: (tab: TabId) => void;
   search: string;
   onSearchChange: (value: string) => void;
   totalFlashcards: number;
 }
 
 export function AppSidebar({
-  tab,
-  onTabChange,
   search,
   onSearchChange,
   totalFlashcards,
@@ -41,10 +39,7 @@ export function AppSidebar({
     extra: null,
   };
 
-  const selectTab = (id: TabId) => {
-    onTabChange(id);
-    setMobileOpen(false);
-  };
+  const closeMobile = () => setMobileOpen(false);
 
   return (
     <>
@@ -66,7 +61,7 @@ export function AppSidebar({
           type="button"
           className="sidebar-backdrop"
           aria-label="Close menu"
-          onClick={() => setMobileOpen(false)}
+          onClick={closeMobile}
         />
       )}
 
@@ -81,22 +76,23 @@ export function AppSidebar({
 
           <nav className="sidebar-nav" aria-label="Main navigation">
             {TABS.map((t) => {
-              const active = tab === t.id;
               const count = counts[t.id];
               return (
-                <button
+                <NavLink
                   key={t.id}
-                  type="button"
-                  onClick={() => selectTab(t.id)}
-                  className={`sidebar-nav-item${active ? " is-active" : ""}`}
-                  aria-current={active ? "page" : undefined}
+                  to={tabToPath(t.id)}
+                  end={t.id === "home"}
+                  onClick={closeMobile}
+                  className={({ isActive }) =>
+                    `sidebar-nav-item${isActive ? " is-active" : ""}`
+                  }
                 >
                   <span className="sidebar-nav-icon">
                     <TabIcon tab={t.id} size={20} />
                   </span>
                   <span className="sidebar-nav-label">{t.label}</span>
                   {count !== null && <span className="sidebar-nav-count">{count}</span>}
-                </button>
+                </NavLink>
               );
             })}
           </nav>
@@ -124,7 +120,7 @@ export function AppSidebar({
           <button
             type="button"
             className="sidebar-close-mobile"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobile}
             aria-label="Close menu"
           >
             Close menu

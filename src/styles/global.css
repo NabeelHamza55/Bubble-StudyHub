@@ -403,6 +403,7 @@ a {
   background: transparent;
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
   color: var(--app-text-secondary);
   font-size: 0.9375rem;
   font-weight: 600;

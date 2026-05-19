@@ -5,6 +5,7 @@ import { FLASHCARD_CATEGORIES } from "../../data";
 import { BRAND } from "../../theme/colors";
 import { alertBox, btnSecondary, layout, text } from "../../theme/styles";
 import { RADIUS, SPACE, TYPE } from "../../theme/tokens";
+import { useProgressStore } from "../../stores/useProgressStore";
 import { useToggleSet } from "../../hooks/useToggleSet";
 
 interface FlashcardsTabProps {
@@ -13,7 +14,11 @@ interface FlashcardsTabProps {
 
 export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
   const { set: openCategories, toggle: toggleCategory } = useToggleSet<number>();
-  const { set: revealed, add: reveal, clear: resetRevealed } = useToggleSet<string>();
+  const revealedKeys = useProgressStore((s) => s.flashcardsRevealed);
+  const revealFlashcard = useProgressStore((s) => s.revealFlashcard);
+  const resetFlashcards = useProgressStore((s) => s.resetFlashcards);
+
+  const revealed = new Set(revealedKeys);
 
   const sq = searchQuery.toLowerCase();
   const categories = FLASHCARD_CATEGORIES.filter(
@@ -24,6 +29,10 @@ export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
 
   return (
     <div style={layout.stack(SPACE.lg)}>
+      <p style={{ ...text.muted, fontSize: TYPE.sm, margin: 0 }}>
+        Revealed cards are saved automatically in this browser.
+      </p>
+
       <div style={{ ...layout.row(SPACE.md), justifyContent: "space-between" }}>
         <p style={text.muted}>Think through each question before revealing the answer.</p>
         <div style={layout.row(SPACE.sm)}>
@@ -31,7 +40,7 @@ export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
             {revealed.size}/{totalQuestions}
           </span>
           {revealed.size > 0 && (
-            <button type="button" onClick={resetRevealed} style={btnSecondary()}>
+            <button type="button" onClick={resetFlashcards} style={btnSecondary()}>
               Reset
             </button>
           )}
@@ -87,17 +96,20 @@ export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
               </div>
             )}
             <div style={layout.stack(SPACE.sm)}>
-              {cat.q.map(([question, answer], qi) => (
-                <FlashcardItem
-                  key={`${ci}-${qi}`}
-                  index={qi}
-                  question={question}
-                  answer={answer}
-                  accent={cat.a}
-                  revealed={revealed.has(`${ci}-${qi}`)}
-                  onReveal={() => reveal(`${ci}-${qi}`)}
-                />
-              ))}
+              {cat.q.map(([question, answer], qi) => {
+                const key = `${ci}-${qi}`;
+                return (
+                  <FlashcardItem
+                    key={key}
+                    index={qi}
+                    question={question}
+                    answer={answer}
+                    accent={cat.a}
+                    revealed={revealed.has(key)}
+                    onReveal={() => revealFlashcard(key)}
+                  />
+                );
+              })}
             </div>
           </Accordion>
         );
@@ -147,12 +159,24 @@ function FlashcardItem({
         <p style={{ ...text.body, fontWeight: 500, flex: 1 }}>{question}</p>
       </div>
       {!revealed ? (
-        <button type="button" onClick={onReveal} className="flashcard-reveal-btn" style={{ width: "100%", padding: `${SPACE.md}px`, cursor: "pointer", fontSize: TYPE.base, fontWeight: 600 }}>
+        <button
+          type="button"
+          onClick={onReveal}
+          className="flashcard-reveal-btn"
+          style={{ width: "100%", padding: `${SPACE.md}px`, cursor: "pointer", fontSize: TYPE.base, fontWeight: 600 }}
+        >
           Reveal answer
         </button>
       ) : (
-        <div style={{ padding: `${SPACE.md}px ${SPACE.lg}px ${SPACE.lg}px 52px`, borderTop: `1px solid color-mix(in srgb, ${accent} 25%, var(--app-border))` }}>
-          <p className="flashcard-answer" style={{ ...text.body }}>{answer}</p>
+        <div
+          style={{
+            padding: `${SPACE.md}px ${SPACE.lg}px ${SPACE.lg}px 52px`,
+            borderTop: `1px solid color-mix(in srgb, ${accent} 25%, var(--app-border))`,
+          }}
+        >
+          <p className="flashcard-answer" style={{ ...text.body }}>
+            {answer}
+          </p>
         </div>
       )}
     </article>

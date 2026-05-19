@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { HashRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./theme/ThemeContext";
 import { AppSidebar } from "./components/layout/AppSidebar";
+import { LegacyTabRedirect } from "./components/routing/LegacyTabRedirect";
 import { DashboardTab } from "./components/tabs/DashboardTab";
 import { PracticeTab } from "./components/tabs/PracticeTab";
 import { StudyQuizTab } from "./components/tabs/StudyQuizTab";
@@ -9,22 +11,15 @@ import { FlashcardsTab } from "./components/tabs/FlashcardsTab";
 import { StudyMaterialTab } from "./components/tabs/StudyMaterialTab";
 import { ResourcesTab } from "./components/tabs/ResourcesTab";
 import { FLASHCARD_CATEGORIES } from "./data";
-import type { TabId } from "./types";
+import { useAppStore } from "./stores/useAppStore";
+import { pathToTab, TAB_TITLES } from "./routes/tabRoutes";
 import "./styles/global.css";
 
-const TAB_TITLES: Record<TabId, string> = {
-  home: "Dashboard",
-  practice: "Practice Exam",
-  studyquiz: "Doc & Scenario Quiz",
-  hardquiz: "Hard Mode Challenge",
-  quiz: "Flashcards",
-  topics: "Study Material",
-  extra: "Resources",
-};
-
-export default function App() {
-  const [tab, setTab] = useState<TabId>("home");
-  const [search, setSearch] = useState("");
+function AppShell() {
+  const { pathname } = useLocation();
+  const tab = pathToTab(pathname);
+  const search = useAppStore((s) => s.globalSearch);
+  const setSearch = useAppStore((s) => s.setGlobalSearch);
 
   const totalFlashcards = useMemo(
     () => FLASHCARD_CATEGORIES.reduce((n, c) => n + c.q.length, 0),
@@ -32,12 +27,9 @@ export default function App() {
   );
 
   return (
-    <ThemeProvider>
     <div className="app-shell">
-      <AppSidebar
-        tab={tab}
-        onTabChange={setTab}
-        search={search}
+        <AppSidebar
+          search={search}
         onSearchChange={setSearch}
         totalFlashcards={totalFlashcards}
       />
@@ -48,18 +40,35 @@ export default function App() {
         </header>
 
         <main className="app-main-content">
-          {tab === "home" && (
-            <DashboardTab totalFlashcards={totalFlashcards} onNavigate={setTab} />
-          )}
-          {tab === "practice" && <PracticeTab />}
-          {tab === "studyquiz" && <StudyQuizTab />}
-          {tab === "hardquiz" && <HardQuizTab />}
-          {tab === "quiz" && <FlashcardsTab searchQuery={search} />}
-          {tab === "topics" && <StudyMaterialTab searchQuery={search} />}
-          {tab === "extra" && <ResourcesTab />}
+          <Routes>
+            <Route path="/" element={<DashboardTab totalFlashcards={totalFlashcards} />} />
+            <Route path="/practice" element={<PracticeTab />} />
+            <Route path="/studyquiz" element={<StudyQuizTab />} />
+            <Route path="/hardquiz" element={<HardQuizTab />} />
+            <Route
+              path="/quiz"
+              element={<FlashcardsTab searchQuery={search} />}
+            />
+            <Route
+              path="/topics"
+              element={<StudyMaterialTab searchQuery={search} />}
+            />
+            <Route path="/extra" element={<ResourcesTab />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </main>
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <HashRouter>
+        <LegacyTabRedirect />
+        <AppShell />
+      </HashRouter>
     </ThemeProvider>
   );
 }
