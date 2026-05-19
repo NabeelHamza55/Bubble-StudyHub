@@ -1,0 +1,22 @@
+Bubble Study Hub — how to run WITHOUT npm
+==========================================
+
+BUILD (needs Node once on a dev machine):
+  npm run build:file
+
+OUTPUT:
+  dist-standalone/index.html   ← ONE file, everything inside
+
+RUN:
+  Double-click dist-standalone/index.html in Chrome or Edge.
+  Use sidebar links; URLs look like:  index.html#/practice
+
+Do NOT copy only part of a build — the single-file build is literally
+just that one .html file (no assets folder required).
+
+--- Folder build (for web hosting / npm run preview) ---
+  npm run build  →  dist/index.html + dist/assets/
+  Needs a web server OR the whole dist/ folder together (not index.html alone).
+
+--- Optional: tiny server, no npm to run ---
+  cd dist-standalone && python3 -m http.server 8080
