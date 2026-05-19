@@ -96,8 +96,8 @@ export function chipStyle(active: boolean, activeColor: string, subtle?: boolean
     padding: subtle ? "8px 14px" : "8px 16px",
     borderRadius: RADIUS.sm,
     border: `1.5px solid ${active ? activeColor : BRAND.border}`,
-    background: active ? (subtle ? activeColor + "18" : activeColor) : BRAND.white,
-    color: active ? (subtle ? activeColor : BRAND.white) : "#374151",
+    background: active ? (subtle ? activeColor + "22" : activeColor) : BRAND.white,
+    color: active ? (subtle ? activeColor : "#fff") : "var(--app-text-secondary)",
     fontSize: TYPE.sm,
     fontWeight: 600,
     cursor: "pointer",
@@ -110,7 +110,7 @@ export function btnSecondary(): CSSProperties {
     fontSize: TYPE.sm,
     fontWeight: 600,
     color: BRAND.muted,
-    background: "#F3F4F6",
+    background: "var(--app-surface-hover)",
     border: `1px solid ${BRAND.border}`,
     borderRadius: RADIUS.sm,
     padding: "8px 14px",
@@ -120,9 +120,21 @@ export function btnSecondary(): CSSProperties {
 
 export function alertBox(variant: "warn" | "info" | "danger" = "warn"): CSSProperties {
   const map = {
-    warn: { bg: "#FFF7ED", border: "#FED7AA", color: "#92400E" },
-    info: { bg: "#FAF5FF", border: "#DDD6FE", color: "#5B21B6" },
-    danger: { bg: "#FFF1F2", border: "#FECACA", color: "#B91C1C" },
+    warn: {
+      bg: "var(--alert-warn-bg)",
+      border: "var(--alert-warn-border)",
+      color: "var(--alert-warn-text)",
+    },
+    info: {
+      bg: "var(--alert-info-bg)",
+      border: "var(--alert-info-border)",
+      color: "var(--alert-info-text)",
+    },
+    danger: {
+      bg: "var(--alert-danger-bg)",
+      border: "var(--alert-danger-border)",
+      color: "var(--alert-danger-text)",
+    },
   };
   const v = map[variant];
   return {

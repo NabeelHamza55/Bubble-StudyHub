@@ -32,7 +32,7 @@ export function Accordion({ title, accent, open, toggle, badge, children }: Acco
         borderRadius: RADIUS.md,
         background: BRAND.white,
         border: `1px solid ${open ? accent + "66" : BRAND.border}`,
-        boxShadow: open ? "0 2px 8px rgba(0,0,0,.06)" : "none",
+        boxShadow: open ? `0 2px 8px var(--app-shadow)` : "none",
         transition: "border-color .2s, box-shadow .2s",
       }}
     >
@@ -75,7 +75,7 @@ export function Accordion({ title, accent, open, toggle, badge, children }: Acco
         <span
           style={{
             fontSize: TYPE.sm,
-            color: "#9CA3AF",
+            color: "var(--app-text-faint)",
             transform: open ? "rotate(90deg)" : "none",
             transition: "transform .25s",
             flexShrink: 0,

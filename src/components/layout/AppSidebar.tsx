@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { TabId } from "../../types";
 import { HARD_MA_QUESTIONS, PRACTICE_EXAM_QUESTIONS, STUDY_QUIZ_QUESTIONS } from "../../data";
 import { IconMenu, IconSearch, TabIcon } from "../icons/TabIcons";
+import { ThemeToggle } from "../ui/ThemeToggle";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "home", label: "Dashboard" },
@@ -57,6 +58,7 @@ export function AppSidebar({
           <IconMenu size={22} />
         </button>
         <span className="mobile-topbar-title">Bubble Study Hub</span>
+        <ThemeToggle compact />
       </header>
 
       {mobileOpen && (
@@ -100,6 +102,7 @@ export function AppSidebar({
           </nav>
 
           <div className="sidebar-footer">
+            <ThemeToggle />
             <label htmlFor="global-search" className="sidebar-search-label">
               Search
             </label>

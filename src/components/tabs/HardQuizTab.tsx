@@ -9,8 +9,8 @@ export function HardQuizTab() {
 
   return (
     <div className="hard-quiz-tab" style={layout.stack(SPACE.lg)}>
-      <section style={{ ...card, borderColor: "#C4B5FD", background: "linear-gradient(135deg, #FAF5FF 0%, #fff 60%)" }}>
-        <p style={{ ...text.label, fontSize: 12, color: "#6D28D9", marginBottom: SPACE.sm }}>
+      <section className="hard-quiz-hero" style={card}>
+        <p className="hard-quiz-hero-label" style={{ ...text.label, fontSize: 12, marginBottom: SPACE.sm }}>
           EXPERT · MULTI-ANSWER ONLY
         </p>
         <h2 style={{ ...text.h2, marginBottom: SPACE.sm }}>Hard mode challenge</h2>

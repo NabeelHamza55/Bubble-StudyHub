@@ -58,11 +58,11 @@ export function StudyMaterialTab({ searchQuery }: StudyMaterialTabProps) {
             badge={
               <>
                 {topic.h && (
-                  <Badge color={BRAND.fail} background="#FFF1F2" border="1px solid #FECACA">
+                  <Badge color="var(--badge-fail-text)" background="var(--badge-fail-bg)" border="1px solid var(--exam-wrong-border)">
                     HARDEST
                   </Badge>
                 )}
-                <Badge color={BRAND.muted} background="#F3F4F6">
+                <Badge color="var(--badge-neutral-text)" background="var(--badge-neutral-bg)">
                   {resources.length}
                 </Badge>
               </>
@@ -97,10 +97,10 @@ function WorkloadBanner() {
         🔥
       </span>
       <div>
-        <p style={{ ...text.h3, color: "#B45309", marginBottom: SPACE.xs }}>Workload is the hardest topic</p>
-        <p style={{ ...text.muted, fontSize: TYPE.base, color: "#92400E" }}>
+        <p style={{ ...text.h3, color: "var(--dashboard-alert-title)", marginBottom: SPACE.xs }}>Workload is the hardest topic</p>
+        <p style={{ ...text.muted, fontSize: TYPE.base, color: "var(--alert-warn-text)" }}>
           Certified devs consistently name it as least prepared.{" "}
-          <strong style={{ color: "#B45309" }}>Don&apos;t skip Section 06.</strong>
+          <strong style={{ color: "var(--dashboard-alert-title)" }}>Don&apos;t skip Section 06.</strong>
         </p>
       </div>
     </div>
@@ -113,28 +113,19 @@ function ResourceLink({ resource }: { resource: { t: string; n: string; u: strin
       href={resource.u}
       target="_blank"
       rel="noopener noreferrer"
+      className="study-resource-row"
       style={{
         display: "flex",
         alignItems: "center",
         gap: SPACE.md,
         padding: `${SPACE.md}px ${SPACE.lg}px`,
-        background: "#F9FAFB",
         borderRadius: RADIUS.sm,
-        border: `1px solid ${BRAND.border}`,
         textDecoration: "none",
         transition: "background .15s, border-color .15s",
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = "#F3F4F6";
-        e.currentTarget.style.borderColor = BRAND.primary + "55";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = "#F9FAFB";
-        e.currentTarget.style.borderColor = BRAND.border;
-      }}
     >
       <span style={{ fontSize: TYPE.lg }}>{resource.t}</span>
-      <span style={{ flex: 1, fontSize: TYPE.base, color: BRAND.text, lineHeight: TYPE.lineHeightRelaxed }}>
+      <span className="study-resource-label" style={{ flex: 1, fontSize: TYPE.base, lineHeight: TYPE.lineHeightRelaxed }}>
         {resource.n}
       </span>
       <Badge

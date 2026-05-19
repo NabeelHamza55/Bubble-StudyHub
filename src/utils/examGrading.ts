@@ -29,10 +29,10 @@ export function canSubmitExamAnswer(
 }
 
 export function getExamTypeTag(question: ExamQuestion) {
-  if (question.type === "tf") return { label: "True / False", bg: "#F0F9FF", color: "#0369A1" };
-  if (isMultiAnswerQuestion(question)) return { label: "Multi-Answer ✦", bg: "#FAF5FF", color: "#7C3AED" };
-  if (question.scenario) return { label: "Scenario", bg: "#FFF7ED", color: "#B45309" };
-  return { label: "Multiple Choice", bg: "#ECFDF5", color: "#047857" };
+  if (question.type === "tf") return { label: "True / False", bg: "var(--tag-tf-bg)", color: "var(--tag-tf-text)" };
+  if (isMultiAnswerQuestion(question)) return { label: "Multi-Answer ✦", bg: "var(--tag-ma-bg)", color: "var(--tag-ma-text)" };
+  if (question.scenario) return { label: "Scenario", bg: "var(--tag-scenario-bg)", color: "var(--tag-scenario-text)" };
+  return { label: "Multiple Choice", bg: "var(--tag-mc-bg)", color: "var(--tag-mc-text)" };
 }
 
 export function filterExamQuestions(

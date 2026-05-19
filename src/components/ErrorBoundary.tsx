@@ -30,19 +30,28 @@ export class ErrorBoundary extends Component<Props, State> {
             justifyContent: "center",
             padding: 24,
             fontFamily: "system-ui,sans-serif",
-            background: "#FFF5F5",
+            background: "var(--error-bg)",
+            color: "var(--app-text)",
           }}
         >
-          <div style={{ maxWidth: 480, background: "#fff", border: "1.5px solid #FECACA", borderRadius: 10, padding: 20 }}>
-            <h1 style={{ fontSize: 16, color: "#B91C1C", margin: "0 0 8px" }}>Something went wrong</h1>
-            <p style={{ fontSize: 13, color: "#374151", margin: "0 0 12px", lineHeight: 1.5 }}>
+          <div
+            style={{
+              maxWidth: 480,
+              background: "var(--app-surface)",
+              border: "1.5px solid var(--error-border)",
+              borderRadius: 10,
+              padding: 20,
+            }}
+          >
+            <h1 style={{ fontSize: 16, color: "var(--error-title)", margin: "0 0 8px" }}>Something went wrong</h1>
+            <p style={{ fontSize: 13, color: "var(--error-text)", margin: "0 0 12px", lineHeight: 1.5 }}>
               The app hit a runtime error. Open the browser console (F12) for details.
             </p>
             <pre
               style={{
                 fontSize: 11,
-                color: "#7F1D1D",
-                background: "#FEE2E2",
+                color: "var(--error-code-text)",
+                background: "var(--error-code-bg)",
                 padding: 12,
                 borderRadius: 6,
                 overflow: "auto",

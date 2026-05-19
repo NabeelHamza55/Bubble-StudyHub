@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { EXTERNAL_RESOURCES, OFFICIAL_RESOURCES, WORKLOAD_CONCEPTS } from "../../data";
-import { BRAND } from "../../theme/colors";
+import { BRAND, RESOURCE_BACKGROUNDS, RESOURCE_COLORS } from "../../theme/colors";
 import { card, layout, text } from "../../theme/styles";
 import { RADIUS, SPACE, TYPE } from "../../theme/tokens";
 import { Badge } from "../ui/Badge";
@@ -18,15 +18,22 @@ export function ResourcesTab() {
             href={link.u}
             label={link.n}
             badge="MANUAL"
-            badgeColor="#1D4ED8"
-            badgeBg="#EFF6FF"
+            badgeColor={RESOURCE_COLORS.d}
+            badgeBg={RESOURCE_BACKGROUNDS.d}
           />
         ))}
       </Section>
 
       <Section title="Free mock tests & study aids">
         {mockTests.map((link) => (
-          <ExternalLink key={link.u} href={link.u} label={link.n} badge="FREE" badgeColor={BRAND.pass} badgeBg="#ECFDF5" />
+          <ExternalLink
+            key={link.u}
+            href={link.u}
+            label={link.n}
+            badge="FREE"
+            badgeColor={BRAND.pass}
+            badgeBg="var(--resource-free-bg)"
+          />
         ))}
       </Section>
 
@@ -36,30 +43,20 @@ export function ResourcesTab() {
         ))}
       </Section>
 
-      <section style={{ ...card, background: "#FFF7ED", borderColor: "#FED7AA" }}>
-        <h3 style={{ ...text.h3, color: "#B45309", marginBottom: SPACE.md }}>
+      <section className="resources-workload-card" style={card}>
+        <h3 className="resources-workload-title" style={{ ...text.h3, marginBottom: SPACE.md }}>
           🔥 Workload concepts — must know
         </h3>
-        <p style={{ ...text.muted, fontSize: TYPE.base, color: "#92400E", marginBottom: SPACE.md }}>
+        <p className="resources-workload-lead" style={{ ...text.muted, fontSize: TYPE.base, marginBottom: SPACE.md }}>
           Study until you can explain each without looking:
         </p>
         <ol style={{ ...layout.stack(SPACE.sm), margin: 0, padding: 0, listStyle: "none" }}>
           {WORKLOAD_CONCEPTS.map((concept, i) => (
-            <li
-              key={concept}
-              style={{
-                display: "flex",
-                gap: SPACE.md,
-                padding: `${SPACE.md}px ${SPACE.lg}px`,
-                background: "#FFFBEB",
-                borderRadius: RADIUS.sm,
-                border: "1px solid #FDE68A",
-              }}
-            >
-              <span style={{ fontWeight: 700, fontSize: TYPE.sm, color: "#D97706", minWidth: 24 }}>
+            <li key={concept} className="resources-workload-item" style={{ display: "flex", gap: SPACE.md, padding: `${SPACE.md}px ${SPACE.lg}px`, borderRadius: RADIUS.sm }}>
+              <span className="resources-workload-num" style={{ fontWeight: 700, fontSize: TYPE.sm, minWidth: 24 }}>
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span style={{ fontSize: TYPE.base, color: "#78350F", lineHeight: TYPE.lineHeightRelaxed }}>
+              <span className="resources-workload-text" style={{ fontSize: TYPE.base, lineHeight: TYPE.lineHeightRelaxed }}>
                 {concept}
               </span>
             </li>
@@ -99,25 +96,18 @@ function ExternalLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      className="study-resource-row"
       style={{
         display: "flex",
         alignItems: "center",
         gap: SPACE.md,
         padding: `${SPACE.md}px ${SPACE.lg}px`,
-        background: BRAND.white,
-        border: `1px solid ${BRAND.border}`,
         borderRadius: RADIUS.md,
         textDecoration: "none",
-        transition: "border-color .2s",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = BRAND.primary;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = BRAND.border;
+        transition: "border-color .2s, background .2s",
       }}
     >
-      <span style={{ flex: 1, fontSize: TYPE.base, color: BRAND.text, fontWeight: badge ? 500 : 400 }}>
+      <span className="study-resource-label" style={{ flex: 1, fontSize: TYPE.base, fontWeight: badge ? 500 : 400 }}>
         {label}
       </span>
       {badge && badgeColor && badgeBg && (
@@ -125,7 +115,7 @@ function ExternalLink({
           {badge}
         </Badge>
       )}
-      {showArrow && <span style={{ fontSize: TYPE.lg, color: "#9CA3AF" }} aria-hidden>↗</span>}
+      {showArrow && <span style={{ fontSize: TYPE.lg, color: "var(--app-text-faint)" }} aria-hidden>↗</span>}
     </a>
   );
 }

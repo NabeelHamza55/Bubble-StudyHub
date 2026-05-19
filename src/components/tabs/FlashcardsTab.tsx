@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Accordion } from "../ui/Accordion";
 import { Badge } from "../ui/Badge";
 import { FLASHCARD_CATEGORIES } from "../../data";
@@ -42,7 +43,7 @@ export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
           style={{
             width: `${progress}%`,
             height: "100%",
-            background: `linear-gradient(90deg, ${BRAND.primary}, #0369A1)`,
+            background: `linear-gradient(90deg, ${BRAND.primary}, #38bdf8)`,
             borderRadius: 99,
             transition: "width .4s",
           }}
@@ -63,13 +64,17 @@ export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
             badge={
               <>
                 {isHardest && (
-                  <Badge color={BRAND.fail} background="#FFF1F2" border="1px solid #FECACA">
+                  <Badge
+                    color="var(--badge-fail-text)"
+                    background="var(--badge-fail-bg)"
+                    border="1px solid var(--exam-wrong-border)"
+                  >
                     HARDEST
                   </Badge>
                 )}
                 <Badge
-                  color={done === cat.q.length ? BRAND.pass : BRAND.muted}
-                  background={done === cat.q.length ? "#ECFDF5" : "#F3F4F6"}
+                  color={done === cat.q.length ? "var(--badge-pass-text)" : "var(--badge-neutral-text)"}
+                  background={done === cat.q.length ? "var(--badge-pass-bg)" : "var(--badge-neutral-bg)"}
                 >
                   {done}/{cat.q.length}
                 </Badge>
@@ -89,8 +94,6 @@ export function FlashcardsTab({ searchQuery }: FlashcardsTabProps) {
                   question={question}
                   answer={answer}
                   accent={cat.a}
-                  bg={cat.bg}
-                  rowBg={cat.rb}
                   revealed={revealed.has(`${ci}-${qi}`)}
                   onReveal={() => reveal(`${ci}-${qi}`)}
                 />
@@ -108,8 +111,6 @@ function FlashcardItem({
   question,
   answer,
   accent,
-  bg,
-  rowBg,
   revealed,
   onReveal,
 }: {
@@ -117,19 +118,19 @@ function FlashcardItem({
   question: string;
   answer: string;
   accent: string;
-  bg: string;
-  rowBg: string;
   revealed: boolean;
   onReveal: () => void;
 }) {
   return (
     <article
-      style={{
-        background: revealed ? rowBg : "#F9FAFB",
-        borderRadius: RADIUS.sm,
-        border: `1px solid ${revealed ? accent + "44" : BRAND.border}`,
-        overflow: "hidden",
-      }}
+      className={`flashcard-row${revealed ? " is-revealed" : ""}`}
+      style={
+        {
+          borderRadius: RADIUS.sm,
+          overflow: "hidden",
+          "--flashcard-accent": accent,
+        } as CSSProperties & { "--flashcard-accent": string }
+      }
     >
       <div style={{ padding: `${SPACE.md}px ${SPACE.lg}px`, display: "flex", gap: SPACE.md }}>
         <span
@@ -146,32 +147,12 @@ function FlashcardItem({
         <p style={{ ...text.body, fontWeight: 500, flex: 1 }}>{question}</p>
       </div>
       {!revealed ? (
-        <button
-          type="button"
-          onClick={onReveal}
-          style={{
-            width: "100%",
-            padding: `${SPACE.md}px`,
-            background: "#fff",
-            border: "none",
-            borderTop: `1px solid ${BRAND.border}`,
-            cursor: "pointer",
-            fontSize: TYPE.base,
-            fontWeight: 600,
-            color: accent,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = bg;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "#fff";
-          }}
-        >
+        <button type="button" onClick={onReveal} className="flashcard-reveal-btn" style={{ width: "100%", padding: `${SPACE.md}px`, cursor: "pointer", fontSize: TYPE.base, fontWeight: 600 }}>
           Reveal answer
         </button>
       ) : (
-        <div style={{ padding: `${SPACE.md}px ${SPACE.lg}px ${SPACE.lg}px 52px`, borderTop: `1px solid ${accent}33` }}>
-          <p style={{ ...text.body, color: "#374151" }}>{answer}</p>
+        <div style={{ padding: `${SPACE.md}px ${SPACE.lg}px ${SPACE.lg}px 52px`, borderTop: `1px solid color-mix(in srgb, ${accent} 25%, var(--app-border))` }}>
+          <p className="flashcard-answer" style={{ ...text.body }}>{answer}</p>
         </div>
       )}
     </article>

@@ -1,15 +1,27 @@
 import type { ResourceKind } from "../types";
 
+/** Theme-aware tokens — resolve via CSS variables on :root / [data-theme] */
+export const BRAND = {
+  primary: "var(--app-primary)",
+  pass: "var(--app-pass)",
+  fail: "var(--app-fail)",
+  text: "var(--app-text)",
+  muted: "var(--app-text-muted)",
+  border: "var(--app-border)",
+  surface: "var(--app-surface-muted)",
+  white: "var(--app-surface)",
+} as const;
+
 export const RESOURCE_COLORS: Record<ResourceKind, string> = {
-  d: "#1D4ED8",
-  v: "#DC2626",
-  b: "#15803D",
+  d: "#60A5FA",
+  v: "#F87171",
+  b: "#4ADE80",
 };
 
 export const RESOURCE_BACKGROUNDS: Record<ResourceKind, string> = {
-  d: "#EFF6FF",
-  v: "#FFF1F2",
-  b: "#F0FDF4",
+  d: "var(--resource-d-bg)",
+  v: "var(--resource-v-bg)",
+  b: "var(--resource-b-bg)",
 };
 
 export const RESOURCE_LABELS: Record<ResourceKind, string> = {
@@ -19,22 +31,11 @@ export const RESOURCE_LABELS: Record<ResourceKind, string> = {
 };
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  "Bubble Interface": "#7C3AED",
-  "Layout & Styles": "#0369A1",
-  "Frontend Functionality": "#0369A1",
-  "Backend Functionality": "#047857",
-  "Database & Security": "#B45309",
-  "Performance & Workload": "#B91C1C",
-  "APIs & Integrations": "#7C3AED",
+  "Bubble Interface": "#A78BFA",
+  "Layout & Styles": "#38BDF8",
+  "Frontend Functionality": "#38BDF8",
+  "Backend Functionality": "#34D399",
+  "Database & Security": "#FBBF24",
+  "Performance & Workload": "#F87171",
+  "APIs & Integrations": "#C4B5FD",
 };
-
-export const BRAND = {
-  primary: "#7C3AED",
-  pass: "#047857",
-  fail: "#B91C1C",
-  text: "#111827",
-  muted: "#6B7280",
-  border: "#E5E7EB",
-  surface: "#F9FAFB",
-  white: "#fff",
-} as const;

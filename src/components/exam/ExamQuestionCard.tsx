@@ -36,10 +36,16 @@ export function ExamQuestionCard({
       style={{
         marginBottom: SPACE.md,
         background: BRAND.white,
-        border: `1px solid ${submitted ? (correct ? "#86EFAC" : "#FCA5A5") : BRAND.border}`,
+        border: `1px solid ${
+          submitted
+            ? correct
+              ? "var(--exam-correct-border)"
+              : "var(--exam-wrong-border)"
+            : BRAND.border
+        }`,
         borderRadius: RADIUS.md,
         overflow: "hidden",
-        boxShadow: "0 1px 3px rgba(0,0,0,.05)",
+        boxShadow: `0 1px 3px var(--app-shadow)`,
       }}
     >
       <div style={{ padding: `${SPACE.lg}px ${SPACE.xl}px 0` }}>
@@ -52,19 +58,19 @@ export function ExamQuestionCard({
             flexWrap: "wrap",
           }}
         >
-          <Badge color="#374151" background="#F3F4F6">
+          <Badge color="var(--badge-neutral-text)" background="var(--badge-neutral-bg)">
             Q{question.id}
           </Badge>
           <Badge color={tag.color} background={tag.bg}>
             {tag.label}
           </Badge>
-          <Badge color={accent} background={accent + "18"}>
+          <Badge color={accent} background={accent + "22"}>
             {question.cat}
           </Badge>
           {submitted && (
             <Badge
-              color={correct ? BRAND.pass : BRAND.fail}
-              background={correct ? "#DCFCE7" : "#FEE2E2"}
+              color={correct ? "var(--badge-pass-text)" : "var(--badge-fail-text)"}
+              background={correct ? "var(--badge-pass-bg)" : "var(--badge-fail-bg)"}
               style={{ marginLeft: "auto" }}
             >
               {correct ? "✓ Correct" : "✗ Incorrect"}
@@ -91,22 +97,22 @@ export function ExamQuestionCard({
           const isCorrectOption = multiAnswer
             ? (question.correct as number[]).includes(oi)
             : question.correct === oi;
-          let bg = "#F9FAFB";
-          let border = `1px solid ${BRAND.border}`;
-          let textColor: string = BRAND.text;
+          let bg = "var(--exam-option-bg)";
+          let border = `1px solid var(--exam-option-border)`;
+          let textColor = "var(--exam-option-text)";
           if (submitted) {
             if (isCorrectOption) {
-              bg = "#DCFCE7";
-              border = "1.5px solid #86EFAC";
-              textColor = "#14532D";
+              bg = "var(--exam-correct-bg)";
+              border = "1.5px solid var(--exam-correct-border)";
+              textColor = "var(--exam-correct-text)";
             } else if (isSelected) {
-              bg = "#FEE2E2";
-              border = "1.5px solid #FCA5A5";
-              textColor = "#7F1D1D";
+              bg = "var(--exam-wrong-bg)";
+              border = "1.5px solid var(--exam-wrong-border)";
+              textColor = "var(--exam-wrong-text)";
             }
           } else if (isSelected) {
-            bg = accent + "12";
-            border = `1.5px solid ${accent}55`;
+            bg = accent + "18";
+            border = `1.5px solid ${accent}66`;
           }
           return (
             <div
@@ -138,18 +144,18 @@ export function ExamQuestionCard({
                     isSelected
                       ? submitted
                         ? isCorrectOption
-                          ? "#22C55E"
-                          : "#EF4444"
+                          ? "var(--exam-correct-border)"
+                          : "var(--exam-wrong-border)"
                         : accent
-                      : "#D1D5DB"
+                      : "var(--exam-radio-off)"
                   }`,
                   background: isSelected
                     ? submitted
                       ? isCorrectOption
-                        ? "#22C55E"
-                        : "#EF4444"
+                        ? "var(--exam-correct-border)"
+                        : "var(--exam-wrong-border)"
                       : accent
-                    : "#fff",
+                    : "var(--app-surface)",
                   flexShrink: 0,
                   marginTop: 2,
                   display: "flex",
@@ -158,7 +164,7 @@ export function ExamQuestionCard({
                 }}
               >
                 {isSelected && (
-                  <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>
+                  <span style={{ fontSize: 11, color: "var(--exam-check-fill)", fontWeight: 700 }}>
                     {multiAnswer ? "✓" : "●"}
                   </span>
                 )}
@@ -182,13 +188,13 @@ export function ExamQuestionCard({
           style={{
             width: "100%",
             padding: `${SPACE.md}px`,
-            background: canSubmit ? accent : "#E5E7EB",
+            background: canSubmit ? accent : "var(--exam-submit-disabled-bg)",
             border: "none",
             borderTop: `1px solid ${BRAND.border}`,
             cursor: canSubmit ? "pointer" : "default",
             fontSize: TYPE.base,
             fontWeight: 600,
-            color: canSubmit ? "#fff" : "#9CA3AF",
+            color: canSubmit ? "#fff" : "var(--exam-submit-disabled-text)",
           }}
         >
           Submit Answer
@@ -197,15 +203,15 @@ export function ExamQuestionCard({
         <div
           style={{
             padding: `${SPACE.lg}px ${SPACE.xl}px`,
-            borderTop: `1px solid ${correct ? "#BBF7D0" : "#FECACA"}`,
-            background: correct ? "#F0FDF4" : "#FFF5F5",
+            borderTop: `1px solid ${correct ? "var(--exam-explain-correct-border)" : "var(--exam-explain-wrong-border)"}`,
+            background: correct ? "var(--exam-explain-correct-bg)" : "var(--exam-explain-wrong-bg)",
           }}
         >
           <p
             style={{
               fontSize: TYPE.sm,
               fontWeight: 700,
-              color: correct ? "#14532D" : "#7F1D1D",
+              color: correct ? "var(--exam-correct-text)" : "var(--exam-wrong-text)",
               margin: `0 0 ${SPACE.sm}px`,
             }}
           >
@@ -214,7 +220,7 @@ export function ExamQuestionCard({
           <p
             style={{
               fontSize: TYPE.base,
-              color: correct ? "#166534" : "#991B1B",
+              color: correct ? "var(--exam-explain-correct-text)" : "var(--exam-explain-wrong-text)",
               margin: 0,
               lineHeight: TYPE.lineHeightRelaxed,
             }}

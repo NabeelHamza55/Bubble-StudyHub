@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { ThemeProvider } from "./theme/ThemeContext";
 import { AppSidebar } from "./components/layout/AppSidebar";
 import { DashboardTab } from "./components/tabs/DashboardTab";
 import { PracticeTab } from "./components/tabs/PracticeTab";
@@ -31,6 +32,7 @@ export default function App() {
   );
 
   return (
+    <ThemeProvider>
     <div className="app-shell">
       <AppSidebar
         tab={tab}
@@ -58,5 +60,6 @@ export default function App() {
         </main>
       </div>
     </div>
+    </ThemeProvider>
   );
 }
