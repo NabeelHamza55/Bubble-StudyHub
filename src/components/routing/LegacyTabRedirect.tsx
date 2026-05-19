@@ -14,7 +14,7 @@ export function LegacyTabRedirect() {
 
   useEffect(() => {
     if (done.current) return;
-    if (pathname !== "/") return;
+    if (pathname !== "/" && pathname !== "/dashboard") return;
 
     const legacy = readLegacyTabFromStorage();
     if (!legacy) return;

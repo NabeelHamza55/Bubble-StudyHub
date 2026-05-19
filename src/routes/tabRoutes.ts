@@ -12,7 +12,7 @@ export const TAB_TITLES: Record<TabId, string> = {
 
 /** Browser history paths (e.g. `/practice`). */
 export const TAB_PATHS: Record<TabId, string> = {
-  home: "/",
+  home: "/dashboard",
   practice: "/practice",
   studyquiz: "/studyquiz",
   hardquiz: "/hardquiz",

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import type { TabId } from "../../types";
 import { HARD_MA_QUESTIONS, PRACTICE_EXAM_QUESTIONS, STUDY_QUIZ_QUESTIONS } from "../../data";
 import { tabToPath } from "../../routes/tabRoutes";
@@ -68,9 +68,11 @@ export function AppSidebar({
       <aside className={`app-sidebar${mobileOpen ? " is-open" : ""}`}>
         <div className="sidebar-inner">
           <div className="sidebar-brand">
-            <h1 className="sidebar-title">
-              Bubble <span className="sidebar-title-accent">Study Hub</span>
-            </h1>
+            <Link to="/" className="sidebar-brand-link">
+              <h1 className="sidebar-title">
+                Bubble <span className="sidebar-title-accent">Study Hub</span>
+              </h1>
+            </Link>
             <p className="sidebar-subtitle">Certification prep</p>
           </div>
 

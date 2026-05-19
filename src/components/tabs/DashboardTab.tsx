@@ -10,6 +10,13 @@ import { TabIcon } from "../icons/TabIcons";
 import { BRAND } from "../../theme/colors";
 import type { TabId } from "../../types";
 
+const EXAM_FACTS = [
+  { label: "Questions", value: "90" },
+  { label: "Time limit", value: "3.5 hours" },
+  { label: "To pass", value: "80% correct" },
+  { label: "Hardest format", value: "Multi-answer" },
+] as const;
+
 interface DashboardTabProps {
   totalFlashcards: number;
 }
@@ -139,44 +146,36 @@ export function DashboardTab({ totalFlashcards }: DashboardTabProps) {
         </div>
       </section>
 
-      <div className="dashboard-two-col">
-        <section className="dashboard-panel">
-          <h3 className="dashboard-section-title">Recommended study path</h3>
-          <ol className="dashboard-path-list">
-            {STUDY_PATH.map((step, i) => (
-              <li key={step}>
-                <span className="dashboard-path-num">{i + 1}</span>
-                <span>{step}</span>
-              </li>
-            ))}
-          </ol>
-        </section>
+      <section className="dashboard-panel dashboard-panel--path">
+        <h3 className="dashboard-section-title">Recommended study path</h3>
+        <ol className="dashboard-path-list">
+          {STUDY_PATH.map((step, i) => (
+            <li key={step}>
+              <span className="dashboard-path-num">{i + 1}</span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-        <section className="dashboard-panel">
-          <h3 className="dashboard-section-title">Official exam at a glance</h3>
-          <dl className="dashboard-exam-facts">
-            <div className="dashboard-fact">
-              <dt>Questions</dt>
-              <dd>90</dd>
-            </div>
-            <div className="dashboard-fact">
-              <dt>Time limit</dt>
-              <dd>3.5 hours</dd>
-            </div>
-            <div className="dashboard-fact">
-              <dt>To pass</dt>
-              <dd>80% correct</dd>
-            </div>
-            <div className="dashboard-fact">
-              <dt>Hardest format</dt>
-              <dd>Multi-answer (select all that apply)</dd>
-            </div>
-          </dl>
-        </section>
-      </div>
+      <section className="dashboard-section" aria-labelledby="exam-facts-heading">
+        <h3 id="exam-facts-heading" className="dashboard-section-title">
+          Official exam at a glance
+        </h3>
+        <div className="dashboard-exam-facts-row">
+          {EXAM_FACTS.map((fact) => (
+            <article key={fact.label} className="dashboard-exam-fact-card">
+              <p className="dashboard-exam-fact-value">{fact.value}</p>
+              <p className="dashboard-exam-fact-label">{fact.label}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-      <section className="dashboard-topics">
-        <h3 className="dashboard-section-title">Topics covered</h3>
+      <section className="dashboard-section dashboard-topics" aria-labelledby="topics-heading">
+        <h3 id="topics-heading" className="dashboard-section-title">
+          Topics covered
+        </h3>
         <div className="dashboard-topic-chips">
           {FLASHCARD_CATEGORIES.map((cat) => (
             <span
@@ -194,6 +193,7 @@ export function DashboardTab({ totalFlashcards }: DashboardTabProps) {
           ))}
         </div>
       </section>
+
     </div>
   );
 }
