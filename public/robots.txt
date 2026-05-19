@@ -5,3 +5,4 @@ User-agent: Googlebot
 Allow: /
 
 Sitemap: https://nabeelhamza55.github.io/Bubble-StudyHub/sitemap.xml
+Sitemap: https://nabeelhamza55.github.io/Bubble-StudyHub/sitemap.txt
