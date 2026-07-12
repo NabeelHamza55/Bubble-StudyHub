@@ -31,10 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build for GitHub Pages
-        run: npm run build
-        env:
-          VITE_BASE_PATH: /Bubble-StudyHub/
-          VITE_SITE_URL: https://nabeelhamza55.github.io/Bubble-StudyHub
+        run: npm run build:pages
 
       - name: SPA fallback for client-side routes
         run: cp dist/index.html dist/404.html
